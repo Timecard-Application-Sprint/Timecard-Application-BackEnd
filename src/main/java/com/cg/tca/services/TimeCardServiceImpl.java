@@ -5,8 +5,10 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.cg.tca.entities.Employee;
 import com.cg.tca.entities.TimeCard;
 import com.cg.tca.exception.ResourceNotFoundException;
+import com.cg.tca.repository.EmployeeRepository;
 import com.cg.tca.repository.TimeCardRepository;
 
 
@@ -16,6 +18,9 @@ public class TimeCardServiceImpl implements TimeCardService {
 	
 	@Autowired
 	TimeCardRepository daoCaller;
+	
+	@Autowired
+	public EmployeeRepository employeeRepository;
 	
 	
 	@Override
@@ -29,7 +34,6 @@ public class TimeCardServiceImpl implements TimeCardService {
 		TimeCard toDelete= daoCaller.findById(timeCardId).orElseThrow(() -> new ResourceNotFoundException("TimeCard not found for this id :: " + timeCardId));
 		check=(toDelete!=null);
 		daoCaller.deleteById(timeCardId);
-		
 		return check;
 	}
 
@@ -40,7 +44,6 @@ public class TimeCardServiceImpl implements TimeCardService {
 		timecard.setTimeEntry(tcard.getTimeEntry());
 		timecard.setTimeExit(tcard.getTimeExit());
 		daoCaller.save(timecard);
-		
 		return timecard.getTimeCardId();
 	}
 
@@ -59,10 +62,13 @@ public class TimeCardServiceImpl implements TimeCardService {
 		return opt;
 	}
 
-	@Override
-	public List<TimeCard> displayEntries(int employeeId) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
+	@Override
+	public Employee getEmployee(int employeeId) {
+	return null;
+	}
+	
+	
+
+	
 }

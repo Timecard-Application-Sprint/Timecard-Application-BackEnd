@@ -19,7 +19,7 @@ import com.cg.tca.services.EmployeeService;
 import com.cg.tca.services.LeaveService;
 
 	@RestController
-	@RequestMapping("/api/v2/")
+	@RequestMapping("/api/leave")
 	public class LeaveController {
 		@Autowired
 		private LeaveService leaveservice;
@@ -28,41 +28,34 @@ import com.cg.tca.services.LeaveService;
 		private EmployeeService empSer;
 		
 		
-		@PostMapping("/apply/{emp_id}")
-		public Leave addLeave(@RequestBody Leave leave ,@PathVariable("emp_id") Integer empId ) throws ResourceNotFoundException {
-			Employee emp=empSer.getEmpById(empId);
-			if(emp!=null) {
-				leave.setEmployee(emp); 
-				leave.setStatus("Pending");
-			}
-			return leaveservice.addLeave(leave);
-		}
-
-		
-
-		
-		
 		/**@PostMapping("/create")
 		public Leave addLeave(@RequestBody Leave leave) {
 			return leaveservice.addLeave(leave);	
 		}**/
 		
+		@PostMapping("/apply/{emp_id}")
+		public Leave addLeave(@RequestBody Leave leave ,@PathVariable(value = "emp_id") Integer empId ) throws ResourceNotFoundException {
+			Employee employee=empSer.getEmpById(empId);
+			if(employee!=null)
+				leave.setEmployee(employee); 
+				leave.setStatus("Pending");
+			return leaveservice.addLeave(leave);
+		}
 		
 		@GetMapping("/{leaveId}")
 		public Leave findLeave(@PathVariable Integer leaveId) throws ResourceNotFoundException{
 			return leaveservice.findLeave(leaveId); 
 		}
+		
 		@GetMapping("/all")
 		 List<Leave> findAllLeaves(){
 			return leaveservice.findByAllLeaves();
 		}
 		
-		
 		@DeleteMapping("/{leaveId}")
 		public int removeLeave(@PathVariable Integer leaveId) throws ResourceNotFoundException{
 			return leaveservice.removeLeave(leaveId); 
 		}
-		
 		
 		@PutMapping("/{leaveId}")
 		public int   updateLeave(@RequestBody Leave leave ,@PathVariable Integer leaveId ) throws ResourceNotFoundException {

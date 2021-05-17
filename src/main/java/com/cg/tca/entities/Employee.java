@@ -5,9 +5,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-/**import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import com.fasterxml.jackson.annotation.JsonBackReference;**/
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import lombok.Data;
 
@@ -31,10 +31,12 @@ public class Employee {
 	private String password;
 	@Column(name = "user_id")
 	private String userId;
-	// @ManyToOne
-	// @JoinColumn(name = "sup_id")
-	// @JsonBackReference
-	// private Supervisor supervisor;
-		
+	@ManyToOne
+	@JoinColumn(name = "sup_id")
+	@JsonBackReference
+	private Supervisor supervisor;
+	/**@OneToOne
+	@JoinColumn(name = "TIME_CARDID")
+	private TimeCard timeCard;**/
 
 }

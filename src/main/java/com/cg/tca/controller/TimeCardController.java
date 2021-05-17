@@ -30,16 +30,16 @@ public class TimeCardController {
 	
 	
 	@GetMapping("/employee/{id}")
-	public List<TimeCard> getEmployeeById(@PathVariable(value = "id") Integer employeeId){
-		return tcs.displayEntries(employeeId);
+	public Employee getEmpById(@PathVariable(value = "id") int empId) throws ResourceNotFoundException{
+		return empSer.getEmpById(empId);
 	}
 	
-	@GetMapping("/getTimeCard/{id}")
+	@GetMapping("/gettimecard/{id}")
 	public TimeCard getTimeCardById(@PathVariable(value = "id") Integer tcId){
 		return tcs.getTimeCard(tcId);
 	}
 	
-	@PostMapping("/timecardEntry/{emp_id}")
+	@PostMapping("/timecardentry/{emp_id}")
 	public TimeCard createTimeCard( @RequestBody TimeCard tca, @PathVariable(value = "emp_id") Integer empId ) throws ResourceNotFoundException {
 		Employee employee=empSer.getEmpById(empId);
 		if(employee!=null)
@@ -49,15 +49,12 @@ public class TimeCardController {
 	}
 	
 	
-	@PutMapping("/timeCardEdit/{tc_id}")
+	@PutMapping("/timecardedit/{tc_id}")
 	public Integer editTimeCard(@PathVariable("tc_id") Integer id,@RequestBody TimeCard tcard) throws ResourceNotFoundException{
-		
 		return tcs.updateEntries(id, tcard);
 	}
 	
-	
-	
-	@DeleteMapping("/timecardDelete/{id}")
+	@DeleteMapping("/timecarddelete/{id}")
 	public Boolean deleteTimeCard(@PathVariable("id") Integer id ) throws ResourceNotFoundException{
 		return tcs.removeEntry(id);
 	}

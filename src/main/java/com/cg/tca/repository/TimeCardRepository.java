@@ -19,7 +19,7 @@ public interface TimeCardRepository extends JpaRepository<TimeCard, Integer> {
 		List<TimeCard> findByEmp(Employee emp);
 
 		@Query("select tc from TimeCard tc where tc.employee=(select emp from Employee emp where emp.employeeId=:empId)")
-		List<TimeCard> findByEmpId(int empId);
+		public Employee findByEmpId(int empId);
 
 		@Transactional
 		@Modifying

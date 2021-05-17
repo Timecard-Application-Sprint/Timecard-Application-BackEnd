@@ -14,7 +14,7 @@ import com.cg.tca.repository.LeaveRepository;
 public class LeaveServiceImpl implements LeaveService {
 
 	@Autowired
-	LeaveRepository leaveRep;
+	public LeaveRepository leaveRep;
 
 	@Override
 	public Leave addLeave(Leave leave) {

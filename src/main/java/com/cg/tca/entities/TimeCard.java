@@ -13,6 +13,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import lombok.Data;
 
 @Entity
@@ -24,6 +26,7 @@ public class TimeCard {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int timeCardId;
 	@Column(name="ENTRY_DATE")
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
 	private LocalDate date;
 	@Column(name="ENTRY_TIME")
 	private LocalTime timeEntry;
@@ -34,4 +37,6 @@ public class TimeCard {
 	@OneToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name="EMP_ID")
 	private Employee employee;
-}
+	
+	}
+
