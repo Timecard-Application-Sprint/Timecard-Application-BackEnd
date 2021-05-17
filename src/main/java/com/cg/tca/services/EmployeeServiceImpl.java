@@ -15,11 +15,11 @@ public class EmployeeServiceImpl implements EmployeeService {
 	@Autowired
 	private EmployeeRepository employeeRepository;
 	
-	//@Autowired
+	@Autowired
 	//private SupervisorService supService;
 	
 	/**public Employee createEmployee(Employee employee) throws ResourceNotFoundException {
-		Supervisor supervisor=supService.getSupervisorById(employee.getSuper().getSupervisorId());
+		Supervisor supervisor=supService.getSupervisorById(employee.getSupervisor().getSupervisorId());
 		supervisor.getEmps().add(employee);
 		supervisor.updateSupervisor(supervisor.getSupervisorId(),supervisor);
 		return employeeRepository.save(employee);
