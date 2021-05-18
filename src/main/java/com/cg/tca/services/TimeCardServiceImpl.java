@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.cg.tca.entities.Employee;
 import com.cg.tca.entities.TimeCard;
 import com.cg.tca.exception.ResourceNotFoundException;
 import com.cg.tca.repository.EmployeeRepository;
@@ -40,9 +39,7 @@ public class TimeCardServiceImpl implements TimeCardService {
 	@Override
 	public int updateEntries(int id, TimeCard tcard) throws ResourceNotFoundException {
 		TimeCard timecard=daoCaller.findById(id).orElseThrow(() -> new ResourceNotFoundException(" TimeCard not found for this id :: " + id));
-		timecard.setDate(tcard.getDate());
-		timecard.setTimeEntry(tcard.getTimeEntry());
-		timecard.setTimeExit(tcard.getTimeExit());
+		timecard.setStatus(tcard.getStatus());
 		daoCaller.save(timecard);
 		return timecard.getTimeCardId();
 	}
@@ -62,11 +59,6 @@ public class TimeCardServiceImpl implements TimeCardService {
 		return opt;
 	}
 
-
-	@Override
-	public Employee getEmployee(int employeeId) {
-	return null;
-	}
 	
 	
 

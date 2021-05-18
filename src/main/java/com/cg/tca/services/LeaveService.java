@@ -15,9 +15,11 @@ public interface  LeaveService {
 	
 	List<Leave> findByEmpId(int empId);
 
-	public int update(int leaveId, Leave leave) throws ResourceNotFoundException;
+//	public Integer update(Integer leaveId, Leave leave) throws ResourceNotFoundException;
 	
 	List<Leave>findByAllLeaves();
+	
+	public int updateLeaveById(Integer leaveId, Leave lea) throws ResourceNotFoundException;
 
       
 }

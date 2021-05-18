@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.cg.tca.entities.Leave;
 import com.cg.tca.exception.ResourceNotFoundException;
+import com.cg.tca.repository.EmployeeRepository;
 import com.cg.tca.repository.LeaveRepository;
 
 @Service
@@ -15,6 +16,9 @@ public class LeaveServiceImpl implements LeaveService {
 
 	@Autowired
 	public LeaveRepository leaveRep;
+	
+	@Autowired
+	public EmployeeRepository employeeRepository;
 	
 	
 
@@ -34,11 +38,11 @@ public class LeaveServiceImpl implements LeaveService {
 	}
 
 	@Override
-	public int update(int leaveId, Leave leaave) throws ResourceNotFoundException {
-		Leave leave = leaveRep.findById(leaveId)
-				.orElseThrow(() -> new ResourceNotFoundException("Leave not found for this id :: " + leaveId));
-		leave.setFromDate(leave.getFromDate());
-		leave.setToDate(leave.getToDate());
+	public int updateLeaveById(Integer leaveId, Leave l) throws ResourceNotFoundException {
+		Leave leave = leaveRep.findById(leaveId).orElseThrow(() -> new ResourceNotFoundException("Leave not found for this id :: " + leaveId));
+		leave.setFromDate(l.getFromDate());
+		leave.setToDate(l.getToDate());
+		leave.setStatus(l.getStatus());
 		leaveRep.save(leave);
 		return leave.getLeaveId();
 	}

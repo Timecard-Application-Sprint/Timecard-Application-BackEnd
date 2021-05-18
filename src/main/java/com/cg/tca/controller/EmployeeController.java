@@ -3,6 +3,7 @@ package com.cg.tca.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,7 +32,7 @@ public class EmployeeController {
 
 	@PostMapping("/create")
 	public String createEmployee(@RequestBody Employee employee) {
-		employeeService.create(employee);
+		employeeService.createEmployee(employee);
 		return "Employee Created";
 	}
 
@@ -41,8 +42,10 @@ public class EmployeeController {
 	}
 	
 	@GetMapping("/{id}")
-	public Employee getEmployeeById(@PathVariable (value = "id") int empId) throws ResourceNotFoundException {
-		return employeeService.getEmpById(empId);
+	public ResponseEntity <Employee> getEmpById(@PathVariable (value = "id") int empId) throws ResourceNotFoundException {
+	 Employee employee =employeeService.getEmpById(empId);
+	 return new ResponseEntity<Employee>(employee, HttpStatus.OK);
+	 
 	}
 
 	@PutMapping("/update/{id}")

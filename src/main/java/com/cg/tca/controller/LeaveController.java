@@ -22,7 +22,7 @@ import com.cg.tca.services.LeaveService;
 	@RequestMapping("/api/leave")
 	public class LeaveController {
 		@Autowired
-		private LeaveService leaveservice;
+		private LeaveService leaveService;
 		
 		@Autowired
 		private EmployeeService empSer;
@@ -34,27 +34,30 @@ import com.cg.tca.services.LeaveService;
 			if(employee!=null)
 				leave.setEmployee(employee); 
 				leave.setStatus("Pending");
-			return leaveservice.addLeave(leave);
+			return leaveService.addLeave(leave);
 		}
 		
 		@GetMapping("/{leaveId}")
 		public Leave findLeave(@PathVariable Integer leaveId) throws ResourceNotFoundException{
-			return leaveservice.findLeave(leaveId); 
+			return leaveService.findLeave(leaveId); 
 		}
 		
 		@GetMapping("/all")
 		 List<Leave> findAllLeaves(){
-			return leaveservice.findByAllLeaves();
+			return leaveService.findByAllLeaves();
 		}
 		
 		@DeleteMapping("/{leaveId}")
 		public int removeLeave(@PathVariable Integer leaveId) throws ResourceNotFoundException{
-			return leaveservice.removeLeave(leaveId); 
+			return leaveService.removeLeave(leaveId); 
 		}
 		
-		@PutMapping("/{leaveId}")
-		public Integer   updateLeave(@PathVariable Integer leaveId, @RequestBody Leave leave) throws ResourceNotFoundException {
-			return leaveservice.update(leaveId, leave);
+		@PutMapping("/update/{leaveId}")
+		public String updateLeaveById(@PathVariable Integer leaveId, @RequestBody Leave leave) throws ResourceNotFoundException {
+			leave.setStatus("Pending");
+			leaveService.updateLeaveById(leaveId, leave);
+			return "Leave Updated";
 	
-		}	
+		}
+		
 }

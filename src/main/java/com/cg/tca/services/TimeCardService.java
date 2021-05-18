@@ -2,7 +2,6 @@ package com.cg.tca.services;
 
 import java.util.List;
 
-import com.cg.tca.entities.Employee;
 import com.cg.tca.entities.TimeCard;
 import com.cg.tca.exception.ResourceNotFoundException;
 
@@ -19,8 +18,6 @@ public interface TimeCardService {
 	List<TimeCard> displayAll();
 
 	TimeCard getTimeCard(Integer tcId);
-
-	Employee getEmployee(int employeeId);
 
 
 	

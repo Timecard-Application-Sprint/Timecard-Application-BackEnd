@@ -59,7 +59,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 		return emp;
 	}
 	@Override
-	public Employee create(Employee employee) {
+	public Employee createEmployee(Employee employee) {
 		return employeeRepository.save(employee);
 	
 	}

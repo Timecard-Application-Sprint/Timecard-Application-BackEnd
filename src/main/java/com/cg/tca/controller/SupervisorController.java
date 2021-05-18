@@ -14,8 +14,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cg.tca.entities.Supervisor;
+import com.cg.tca.entities.TimeCard;
 import com.cg.tca.exception.ResourceNotFoundException;
 import com.cg.tca.services.SupervisorService;
+import com.cg.tca.services.TimeCardService;
 
 @RestController
 @RequestMapping("/api/supervisor")
@@ -23,6 +25,9 @@ public class SupervisorController {
 
 	@Autowired
 	private SupervisorService supervisorService;
+	
+	@Autowired
+	private TimeCardService tcs;
 	
 	@PostMapping("/create")
 	public ResponseEntity<Supervisor> createCompanySupervisor(@RequestBody Supervisor supervisor) {
@@ -44,7 +49,7 @@ public class SupervisorController {
 	}
 
 	@GetMapping("/{id}")
-	public ResponseEntity<Supervisor> findByIdV1(@PathVariable(value = "id") int supervisorId)
+	public ResponseEntity<Supervisor> findById(@PathVariable(value = "id") int supervisorId)
 			throws ResourceNotFoundException {
 		Supervisor sup = supervisorService.getSupervisorById(supervisorId);
 
@@ -57,4 +62,10 @@ public class SupervisorController {
 		Supervisor supervisor = supervisorService.updateSupervisor(supervisorId, supervisorDetails);
 		return ResponseEntity.ok(supervisor);
 	}
+	
+	@PutMapping("/supervisortimecardedit/{tc_id}")
+	public Integer editTimeCard(@PathVariable("tc_id") Integer id,@RequestBody TimeCard tcard) throws ResourceNotFoundException{
+		return tcs.updateEntries(id, tcard);
+}
+	
 }

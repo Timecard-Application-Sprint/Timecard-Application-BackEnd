@@ -16,11 +16,12 @@ public interface EmployeeService {
 
 	Employee getEmpById(int empId) throws ResourceNotFoundException;
 
-	Employee create(Employee employee);
+	Employee createEmployee(Employee employee);
 
 	List<Employee> getAllEmployee();
 
 	Employee save(Employee employee);
+
 
 
 }
