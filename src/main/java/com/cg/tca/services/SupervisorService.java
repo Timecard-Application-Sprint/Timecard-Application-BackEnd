@@ -13,7 +13,7 @@ public interface SupervisorService {
 
 	List<Supervisor> getAllSupervisor();
 
-	Supervisor getSupervisordById(int supervisorId) throws ResourceNotFoundException;
+	Supervisor getSupervisorById(int supervisorId) throws ResourceNotFoundException;
 
 	Supervisor updateSupervisor(Integer supervisorId, Supervisor supervisorDetails) throws ResourceNotFoundException;
 

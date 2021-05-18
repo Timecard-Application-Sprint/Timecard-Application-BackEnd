@@ -15,6 +15,8 @@ public class LeaveServiceImpl implements LeaveService {
 
 	@Autowired
 	public LeaveRepository leaveRep;
+	
+	
 
 	@Override
 	public Leave addLeave(Leave leave) {
@@ -32,16 +34,15 @@ public class LeaveServiceImpl implements LeaveService {
 	}
 
 	@Override
-	public int update(Integer leaveId, Leave lea) throws ResourceNotFoundException {
+	public int update(int leaveId, Leave leaave) throws ResourceNotFoundException {
 		Leave leave = leaveRep.findById(leaveId)
 				.orElseThrow(() -> new ResourceNotFoundException("Leave not found for this id :: " + leaveId));
-		leave.setStatus(leave.getStatus());
 		leave.setFromDate(leave.getFromDate());
 		leave.setToDate(leave.getToDate());
 		leaveRep.save(leave);
 		return leave.getLeaveId();
 	}
-
+	
 	@Override
 	public List<Leave> findByEmpId(int empId) {
 		return leaveRep.findByEmpId(empId);

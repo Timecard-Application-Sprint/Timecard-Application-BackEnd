@@ -28,11 +28,6 @@ import com.cg.tca.services.LeaveService;
 		private EmployeeService empSer;
 		
 		
-		/**@PostMapping("/create")
-		public Leave addLeave(@RequestBody Leave leave) {
-			return leaveservice.addLeave(leave);	
-		}**/
-		
 		@PostMapping("/apply/{emp_id}")
 		public Leave addLeave(@RequestBody Leave leave ,@PathVariable(value = "emp_id") Integer empId ) throws ResourceNotFoundException {
 			Employee employee=empSer.getEmpById(empId);
@@ -58,9 +53,8 @@ import com.cg.tca.services.LeaveService;
 		}
 		
 		@PutMapping("/{leaveId}")
-		public int   updateLeave(@RequestBody Leave leave ,@PathVariable Integer leaveId ) throws ResourceNotFoundException {
+		public Integer   updateLeave(@PathVariable Integer leaveId, @RequestBody Leave leave) throws ResourceNotFoundException {
 			return leaveservice.update(leaveId, leave);
-		}
-		
-		
+	
+		}	
 }

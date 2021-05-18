@@ -1,7 +1,6 @@
 package com.cg.tca.controller;
 
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-//import com.capgemini.entity.Attendance;
 import com.cg.tca.entities.Supervisor;
 import com.cg.tca.exception.ResourceNotFoundException;
 import com.cg.tca.services.SupervisorService;
@@ -25,7 +23,7 @@ public class SupervisorController {
 
 	@Autowired
 	private SupervisorService supervisorService;
-
+	
 	@PostMapping("/create")
 	public ResponseEntity<Supervisor> createCompanySupervisor(@RequestBody Supervisor supervisor) {
 		Supervisor sup = supervisorService.createSupervisor(supervisor);
@@ -48,19 +46,11 @@ public class SupervisorController {
 	@GetMapping("/{id}")
 	public ResponseEntity<Supervisor> findByIdV1(@PathVariable(value = "id") int supervisorId)
 			throws ResourceNotFoundException {
-		Supervisor sup = supervisorService.getSupervisordById(supervisorId);
+		Supervisor sup = supervisorService.getSupervisorById(supervisorId);
 
 		return new ResponseEntity<Supervisor>(sup, HttpStatus.OK);
 	}
 
-	/*
-	 * @PutMapping("/editSupervisor/{id}") public ResponseEntity<Supervisor>
-	 * updateSupervisor(@PathVariable(value = "id") Integer supervisorId,
-	 * 
-	 * @RequestBody Supervisor supervisorDetails) throws ResourceNotFoundException {
-	 * Supervisor supervisor = supervisorService.updateSupervisor(supervisorId,
-	 * supervisorDetails); return ResponseEntity.ok(supervisor); }
-	 */
 	@PutMapping("/update/{id}")
 	public ResponseEntity<Supervisor> updateSupervisor(@PathVariable(value = "id") Integer supervisorId,
 			@RequestBody Supervisor supervisorDetails) throws ResourceNotFoundException {

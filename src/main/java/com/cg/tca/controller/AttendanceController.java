@@ -15,16 +15,16 @@ import org.springframework.web.bind.annotation.RestController;
 import com.cg.tca.entities.Attendance;
 import com.cg.tca.entities.Employee;
 import com.cg.tca.exception.ResourceNotFoundException;
-import com.cg.tca.services.AttendanceServiceImpl;
+import com.cg.tca.services.AttendanceService;
 import com.cg.tca.services.EmployeeService;
 
 @RestController
-@RequestMapping("/api/v1/attendance")
+@RequestMapping("/api/attendance")
 
 public class AttendanceController {
 
 	@Autowired
-	private AttendanceServiceImpl attendanceService;
+	private AttendanceService attendanceService;
 	@Autowired
 	private EmployeeService empSer;
 
@@ -32,34 +32,27 @@ public class AttendanceController {
 	public List<Attendance> getAllAttendance() {
 		return attendanceService.getAllAttendance();
 	}
+
 	
-	/**@PostMapping("/apply/{emp_id}")
-		public Leave addLeave(@RequestBody Leave leave ,@PathVariable(value = "emp_id") Integer empId ) throws ResourceNotFoundException {
-			Employee employee=empSer.getEmpById(empId);
-			if(employee!=null)
-				leave.setEmployee(employee); 
-				leave.setStatus("Pending");
-			return leaveservice.addLeave(leave);
-		}**/
-
-	@PostMapping("/addattendance/{emp_id}")
-	public String addAttendance(@PathVariable(value = "emp_id") Integer empId, @RequestBody Attendance att) throws ResourceNotFoundException {
-		Employee employee = empSer.getEmpById(empId);
-		if (employee!=null)
-			att.setEmployee(employee);
-			att.setStatus("Pending");
-			attendanceService.create(att);
-			return "Leave Applied";
-	}
-
+	 @PostMapping("/saveattendance/{emp_id}") 
+	 public Attendance addAttendance(@PathVariable(value = "emp_id") Integer empId,@RequestBody Attendance att) throws ResourceNotFoundException {
+	 Employee employee=empSer.getEmpById(empId);
+	 if(employee!=null)
+		 att.setEmployee(employee);
+	 	att.setStatus("Pending");
+	 return attendanceService.saveAttendance(att);
+	 }
+	 
 	@GetMapping("/{id}")
-	public Attendance getByAttendanceId(@PathVariable(value = "id") int attendanceId) throws ResourceNotFoundException {
+	public Attendance getByAttendanceId(@PathVariable (value = "id") int attendanceId) throws ResourceNotFoundException {
 		return attendanceService.getAttendanceById(attendanceId);
 	}
 
 	@PutMapping("/update/{id}")
-	public int updateAttendanceById(@PathVariable(value = "id") Integer attendanceId, @RequestBody Attendance attendanceDetails) throws ResourceNotFoundException {
-		return attendanceService.updateAttendanceById(attendanceId, attendanceDetails);
+	public int updateAttendanceById(@PathVariable(value = "id") Integer attendanceId,
+			@RequestBody Attendance attendanceDetails) throws ResourceNotFoundException {
+		attendanceDetails.setStatus("Pending");
+	    return attendanceService.updateAttendanceById(attendanceId, attendanceDetails);
 	}
 
 	@DeleteMapping("/delete/{id}")
@@ -68,12 +61,4 @@ public class AttendanceController {
 
 		return att1;
 	}
-
-	@PostMapping("/create")
-	public String createAttendance(@RequestBody Attendance attendance) {
-		attendance.setStatus("Pending");
-		attendanceService.create(attendance);
-		return "Attendance Created";
-	}
-
 }

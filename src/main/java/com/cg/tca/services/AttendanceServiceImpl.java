@@ -6,30 +6,28 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.cg.tca.entities.Attendance;
-import com.cg.tca.entities.Employee;
+//import com.cg.tca.entities.Supervisor;
 import com.cg.tca.exception.ResourceNotFoundException;
 import com.cg.tca.repository.AttendanceRepository;
-import com.cg.tca.repository.EmployeeRepository;
 
 @Service
+//@Transactional
 public class AttendanceServiceImpl implements AttendanceService {
 
 	@Autowired
 	private AttendanceRepository attdetails;
-	
-	@Autowired
-	private EmployeeRepository employeeRepository;
 
 	@Override
 	public List<Attendance> getAllAttendance() {
 		return attdetails.findAll();
 	}
-	
-	@Override
-	public Employee getEmpById(int empId) throws ResourceNotFoundException {
-	 Employee emp=employeeRepository.findById(empId).orElseThrow(() -> new ResourceNotFoundException("Employee not found for this id :: " + empId));
-	 return emp;
-	 }
+
+	// @Override
+	// public List<Attendance> getAttendanceByEmpId(Integer employeeId) throws
+	// ResourceNotFoundException {
+	// log.info("fetched all attendance by an employee with id "+employeeId);
+	// return attdetails.findByEmpId(employeeId);
+	// }
 
 	@Override
 	public boolean deleteAttendanceByEmpId(Integer attendanceId) throws ResourceNotFoundException {
@@ -46,6 +44,7 @@ public class AttendanceServiceImpl implements AttendanceService {
 		Attendance attendance = attdetails.findById(attendanceId)
 				.orElseThrow(() -> new ResourceNotFoundException("Employee not found for this id :: " + attendanceId));
 		attdetails.delete(attendance);
+
 		return true;
 	}
 
@@ -53,6 +52,7 @@ public class AttendanceServiceImpl implements AttendanceService {
 	public int updateAttendanceById(Integer attendanceId, Attendance atts) throws ResourceNotFoundException {
 		Attendance att = attdetails.findById(attendanceId).orElseThrow(
 				() -> new ResourceNotFoundException("Attendance not found for this id :: " + attendanceId));
+		//att.setAttendanceId(atts.getAttendanceId());
 		att.setInTime(atts.getInTime());
 		att.setOffTime(atts.getOffTime());
 		att.setFromDate(atts.getFromDate());
@@ -62,33 +62,59 @@ public class AttendanceServiceImpl implements AttendanceService {
 
 		return att.getAttendanceId();
 	}
+	/*
+	 * @Override public Supervisor updateSupervisor(Integer supervisorId, Supervisor
+	 * supervisorDetails) throws ResourceNotFoundException { Supervisor supervisor =
+	 * supervisorRepository.findById(supervisorId).orElseThrow(() -> new
+	 * ResourceNotFoundException("Employee not found for this id :: " +
+	 * supervisorId));
+	 * supervisor.setSupervisorName(supervisorDetails.getSupervisorName());
+	 * supervisor.setSupervisorNumber(supervisorDetails.getSupervisorNumber());
+	 * supervisor.setSupervisorEmail(supervisorDetails.getSupervisorEmail());
+	 * supervisor.setPass(supervisorDetails.getPass());
+	 * supervisor.setUserId(supervisorDetails.getUserId()); final Supervisor
+	 * updatedSupervisor = supervisorRepository.save(supervisor);
+	 * 
+	 * return updatedSupervisor; }
+	 */
 
-	@Override
+	/**@Override
 	public Attendance saveAttendanceDetails(Attendance att) {
 		if (att.getToDate() == null) {
 			att.setToDate(att.getFromDate());
 		}
 		return attdetails.save(att);
-	}
+	}**/
 
 	@Override
 	public Attendance getAttendanceById(int attendanceId) throws ResourceNotFoundException {
-		Attendance att = attdetails.findById(attendanceId)
+		Attendance a = attdetails.findById(attendanceId)
 				.orElseThrow(() -> new ResourceNotFoundException("Employee not found for this id :: " + attendanceId));
 
-		return att;
-	}	
+		return a;
+	}
 
 	@Override
-	public Attendance addAttendence(Attendance att) {
-		return attdetails.create(att);
+	public Attendance add(Attendance att) {
+		return attdetails.save(att);
+
 	}
 
-	@Autowired
-	public Attendance create(Attendance att) {
-		return attdetails.save(att);
-		
+	@Override
+	public List<Attendance> getAttendanceByEmpId(Integer employeeId) throws ResourceNotFoundException {
+		return attdetails.findByEmpId(employeeId);
 	}
+
+	@Override
+	public Attendance saveAttendance(Attendance att) {
+		return attdetails.save(att);
+	}
+
+	// @Override
+	// public List<Attendance> getAttendanceByEmpId(Integer employeeId) throws
+	// ResourceNotFoundException {
+	// log.info("fetched all attendance by an employee with id "+employeeId);
+	// return attdetails.findByEmpId(employeeId);
+	// }
 
 }
-

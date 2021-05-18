@@ -37,6 +37,6 @@ public class TimeCard {
 	@OneToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name="EMP_ID")
 	private Employee employee;
-	
+		
 	}
 

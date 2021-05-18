@@ -6,6 +6,7 @@ import com.cg.tca.exception.ResourceNotFoundException;
 import com.cg.tca.entities.Leave;
 
 public interface  LeaveService {
+	
 	public Leave addLeave(Leave leave);
 
 	public Leave findLeave(int leaveId) throws ResourceNotFoundException;
@@ -14,11 +15,9 @@ public interface  LeaveService {
 	
 	List<Leave> findByEmpId(int empId);
 
-	public int update(Integer leaveId, Leave leave) throws ResourceNotFoundException;
+	public int update(int leaveId, Leave leave) throws ResourceNotFoundException;
 	
 	List<Leave>findByAllLeaves();
-
-
 
       
 }

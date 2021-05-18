@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import com.cg.tca.entities.Employee;
 import com.cg.tca.exception.ResourceNotFoundException;
 import com.cg.tca.repository.EmployeeRepository;
@@ -15,10 +14,11 @@ public class EmployeeServiceImpl implements EmployeeService {
 	@Autowired
 	private EmployeeRepository employeeRepository;
 	
-	@Autowired
+	//@Autowired
 	//private SupervisorService supService;
 	
-	/**public Employee createEmployee(Employee employee) throws ResourceNotFoundException {
+
+	/**public Employee saveEmployee(Employee employee) throws ResourceNotFoundException {
 		Supervisor supervisor=supService.getSupervisorById(employee.getSupervisor().getSupervisorId());
 		supervisor.getEmps().add(employee);
 		supervisor.updateSupervisor(supervisor.getSupervisorId(),supervisor);
@@ -63,6 +63,14 @@ public class EmployeeServiceImpl implements EmployeeService {
 		return employeeRepository.save(employee);
 	
 	}
+
+
+	@Override
+	public Employee save(Employee employee) {
+		return employeeRepository.save(employee);
+	}
+
+	
 	
 
 }

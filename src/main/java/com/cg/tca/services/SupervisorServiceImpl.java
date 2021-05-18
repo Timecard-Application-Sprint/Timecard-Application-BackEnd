@@ -71,11 +71,13 @@ public class SupervisorServiceImpl implements SupervisorService {
 	}*/
 
 	@Override
-	public Supervisor getSupervisordById(int supervisorId) throws ResourceNotFoundException {
+	public Supervisor getSupervisorById(int supervisorId) throws ResourceNotFoundException {
 		if (!supervisorRepository.existsById(supervisorId)) {
 			throw new ResourceNotFoundException("There is no supervisor in this id::" + supervisorId);
 		}
 		Supervisor e = supervisorRepository.findById(supervisorId).get();
 		return e;
 	}
+
+
 }

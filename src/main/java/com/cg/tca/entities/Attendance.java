@@ -25,8 +25,14 @@ public class Attendance{
 	@Column(name="ATT_ID")
 	@GeneratedValue(strategy=GenerationType.IDENTITY)	
 	private int attendanceId;
+	
+	@ManyToOne(cascade=CascadeType.ALL)
+	@JoinColumn(name="EMP_ID")
+	private Employee employee; 
+	
 	@Column(name="IN_TIME")
 	private LocalTime inTime;
+	
 	@Column(name="OFF_TIME")
 	private LocalTime offTime;
 	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="dd-MM-yyyy")
@@ -35,10 +41,7 @@ public class Attendance{
 	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="dd-MM-yyyy")
 	@Column(name="TO_DATE")
 	private LocalDate toDate;
+	
 	@Column(name="STATUS")
 	private String status;
-	@ManyToOne(cascade=CascadeType.ALL)
-	@JoinColumn(name="EMP_ID")
-	private Employee employee; 
 }
-

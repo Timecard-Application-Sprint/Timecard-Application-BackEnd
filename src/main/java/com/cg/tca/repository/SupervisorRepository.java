@@ -12,4 +12,6 @@ public interface SupervisorRepository extends  JpaRepository<Supervisor, Integer
 	//@Query("select sup from Supervisor sup where sup.employee=(select emp from Employee emp where emp.employeeId=:empId)")
 	//List<Supervisor> findByEmpId(int empId);
 
+
+	
 }

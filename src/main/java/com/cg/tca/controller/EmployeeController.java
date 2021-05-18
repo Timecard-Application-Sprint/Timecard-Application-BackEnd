@@ -14,8 +14,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cg.tca.entities.Employee;
+import com.cg.tca.entities.Supervisor;
 import com.cg.tca.exception.ResourceNotFoundException;
 import com.cg.tca.services.EmployeeService;
+import com.cg.tca.services.SupervisorService;
 
 @RestController
 @RequestMapping("/api/employee")
@@ -24,8 +26,8 @@ public class EmployeeController {
 	@Autowired
 	private EmployeeService employeeService;
 
-	// @Autowired
-	// private SupervisorService supServ;
+	@Autowired
+	private SupervisorService supService;
 
 	@PostMapping("/create")
 	public String createEmployee(@RequestBody Employee employee) {
@@ -56,6 +58,17 @@ public class EmployeeController {
 		return ResponseEntity.ok(employeeService.deleteEmployeeById(employeeId));
 	}
 
+	@PutMapping("/{employeeId}/supervisor/{supervisorId}")
+	public String asssignSupervisor(@PathVariable int employeeId, @PathVariable int supervisorId ) throws ResourceNotFoundException {
+	
+		Employee employee = employeeService.getEmpById(employeeId);
+		Supervisor supervisor =  supService.getSupervisorById(supervisorId);
+		employee.setSupervisor(supervisor);
+		employeeService.save(employee);
+		
+		return "Supervisor Linked";
+	}
+	
 	/**
 	 * @PutMapping("/{id}") public ResponseEntity<Employee>
 	 * createEmployee(@RequestBody Employee employee, @PathVariable("sup_id")
