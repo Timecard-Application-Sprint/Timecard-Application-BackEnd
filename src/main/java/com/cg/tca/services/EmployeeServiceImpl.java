@@ -18,13 +18,6 @@ public class EmployeeServiceImpl implements EmployeeService {
 	//private SupervisorService supService;
 	
 
-	/**public Employee saveEmployee(Employee employee) throws ResourceNotFoundException {
-		Supervisor supervisor=supService.getSupervisorById(employee.getSupervisor().getSupervisorId());
-		supervisor.getEmps().add(employee);
-		supervisor.updateSupervisor(supervisor.getSupervisorId(),supervisor);
-		return employeeRepository.save(employee);
-	}**/
-	
 	@Override
 	public Employee updateEmployee(Integer employeeId, Employee employeeDetails) throws ResourceNotFoundException {
 		Employee employee = employeeRepository.findById(employeeId).orElseThrow(() -> new ResourceNotFoundException("Employee not found for this id :: " + employeeId));
@@ -55,7 +48,6 @@ public class EmployeeServiceImpl implements EmployeeService {
 	@Override
 	public Employee getEmpById(int empId) throws ResourceNotFoundException {
 		Employee emp=employeeRepository.findById(empId).orElseThrow(() -> new ResourceNotFoundException("Employee not found for this id :: " + empId));
-		
 		return emp;
 	}
 	@Override

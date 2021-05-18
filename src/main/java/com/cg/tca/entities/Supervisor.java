@@ -4,6 +4,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
 import lombok.Data;
 
 
@@ -25,5 +26,6 @@ public class Supervisor {
 	private String password;
 	@Column(name="USER_ID")
 	private String userId;
+	
 }
 	
