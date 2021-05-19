@@ -52,7 +52,6 @@ public class SupervisorController {
 	public ResponseEntity<Supervisor> findById(@PathVariable(value = "id") int supervisorId)
 			throws ResourceNotFoundException {
 		Supervisor sup = supervisorService.getSupervisorById(supervisorId);
-
 		return new ResponseEntity<Supervisor>(sup, HttpStatus.OK);
 	}
 

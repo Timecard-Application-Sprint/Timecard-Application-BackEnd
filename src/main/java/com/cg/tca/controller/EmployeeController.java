@@ -31,9 +31,9 @@ public class EmployeeController {
 	private SupervisorService supService;
 
 	@PostMapping("/create")
-	public String createEmployee(@RequestBody Employee employee) {
+	public ResponseEntity<String> createEmployee(@RequestBody Employee employee) {
 		employeeService.createEmployee(employee);
-		return "Employee Created";
+		return new ResponseEntity<String>("Employee Created",HttpStatus.CREATED);
 	}
 
 	@GetMapping("/all")

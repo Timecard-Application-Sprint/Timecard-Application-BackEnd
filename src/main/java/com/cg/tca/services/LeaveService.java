@@ -7,7 +7,7 @@ import com.cg.tca.entities.Leave;
 
 public interface  LeaveService {
 	
-	public Leave addLeave(Leave leave);
+	public Leave saveLeave(Leave leave);
 
 	public Leave findLeave(int leaveId) throws ResourceNotFoundException;
 

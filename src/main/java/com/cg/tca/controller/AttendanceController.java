@@ -44,7 +44,7 @@ public class AttendanceController {
 	 }
 	 
 	@GetMapping("/{id}")
-	public Attendance getByAttendanceId(@PathVariable (value = "id") int attendanceId) throws ResourceNotFoundException {
+	public Attendance getAttendanceById(@PathVariable (value = "id") int attendanceId) throws ResourceNotFoundException {
 		return attendanceService.getAttendanceById(attendanceId);
 	}
 
