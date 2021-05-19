@@ -29,7 +29,7 @@ public class AttendanceServiceImpl implements AttendanceService {
 	// return attdetails.findByEmpId(employeeId);
 	// }
 
-	@Override
+	/**@Override
 	public boolean deleteAttendanceByEmpId(Integer attendanceId) throws ResourceNotFoundException {
 		boolean del;
 		Attendance att = attdetails.findById(attendanceId).orElseThrow(
@@ -37,12 +37,12 @@ public class AttendanceServiceImpl implements AttendanceService {
 		del = att != null;
 		attdetails.deleteId(attendanceId);
 		return del;
-	}
+	}**/
 
 	@Override
 	public boolean deleteAttendanceById(Integer attendanceId) throws ResourceNotFoundException {
 		Attendance attendance = attdetails.findById(attendanceId)
-				.orElseThrow(() -> new ResourceNotFoundException("Employee not found for this id :: " + attendanceId));
+				.orElseThrow(() -> new ResourceNotFoundException("Attendance not found for this id :: " + attendanceId));
 		attdetails.delete(attendance);
 
 		return true;
@@ -89,7 +89,7 @@ public class AttendanceServiceImpl implements AttendanceService {
 	@Override
 	public Attendance getAttendanceById(int attendanceId) throws ResourceNotFoundException {
 		Attendance a = attdetails.findById(attendanceId)
-				.orElseThrow(() -> new ResourceNotFoundException("Employee not found for this id :: " + attendanceId));
+				.orElseThrow(() -> new ResourceNotFoundException("Attendance not found for this id :: " + attendanceId));
 
 		return a;
 	}
@@ -100,10 +100,10 @@ public class AttendanceServiceImpl implements AttendanceService {
 
 	}
 
-	@Override
+	/**@Override
 	public List<Attendance> getAttendanceByEmpId(Integer employeeId) throws ResourceNotFoundException {
 		return attdetails.findByEmpId(employeeId);
-	}
+	}**/
 
 	@Override
 	public Attendance saveAttendance(Attendance att) {

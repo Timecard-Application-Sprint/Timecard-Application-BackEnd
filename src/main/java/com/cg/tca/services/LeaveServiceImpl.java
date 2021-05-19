@@ -47,11 +47,11 @@ public class LeaveServiceImpl implements LeaveService {
 		return leave.getLeaveId();
 	}
 	
-	@Override
+	/**@Override
 	public List<Leave> findByEmpId(int empId) {
 		return leaveRep.findByEmpId(empId);
 
-	}
+	}**/
 
 	@Override
 	public Leave findLeave(int leaveId) throws ResourceNotFoundException {

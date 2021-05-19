@@ -13,7 +13,7 @@ public interface  LeaveService {
 
 	int removeLeave(int leaveId) throws ResourceNotFoundException;
 	
-	List<Leave> findByEmpId(int empId);
+	//List<Leave> findByEmpId(int empId);
 
 //	public Integer update(Integer leaveId, Leave leave) throws ResourceNotFoundException;
 	

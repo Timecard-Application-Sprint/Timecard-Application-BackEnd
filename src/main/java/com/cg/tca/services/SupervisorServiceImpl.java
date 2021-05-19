@@ -36,7 +36,7 @@ public class SupervisorServiceImpl implements SupervisorService {
 		
 	@Override
 	public Supervisor updateSupervisor(@PathVariable (value ="Id") Integer supervisorId, @RequestBody Supervisor supervisorDetails) throws ResourceNotFoundException {
-	Supervisor supervisor = supervisorRepository.findById(supervisorId).orElseThrow(() -> new ResourceNotFoundException("Employee not found for this id :: " + supervisorId));
+	Supervisor supervisor = supervisorRepository.findById(supervisorId).orElseThrow(() -> new ResourceNotFoundException("Supervisor not found for this id :: " + supervisorId));
 	supervisor.setSupervisorName(supervisorDetails.getSupervisorName());
 	supervisor.setSupervisorNumber(supervisorDetails.getSupervisorNumber());
 	supervisor.setSupervisorEmail(supervisorDetails.getSupervisorEmail());
@@ -49,7 +49,7 @@ public class SupervisorServiceImpl implements SupervisorService {
 	@Override
 	public boolean deleteSupervisor(Integer supervisorId) throws ResourceNotFoundException {
 		Supervisor supervisor = supervisorRepository.findById(supervisorId).orElseThrow(
-				() -> new ResourceNotFoundException(" There is no supervisor in this id :: " + supervisorId));
+				() -> new ResourceNotFoundException(" Supervisor not found for this id :: " + supervisorId));
 		supervisorRepository.delete(supervisor);
 
 		return true;
@@ -73,7 +73,7 @@ public class SupervisorServiceImpl implements SupervisorService {
 	@Override
 	public Supervisor getSupervisorById(int supervisorId) throws ResourceNotFoundException {
 		if (!supervisorRepository.existsById(supervisorId)) {
-			throw new ResourceNotFoundException("There is no supervisor in this id::" + supervisorId);
+			throw new ResourceNotFoundException("Supervisor not found for this id ::" + supervisorId);
 		}
 		Supervisor e = supervisorRepository.findById(supervisorId).get();
 		return e;
