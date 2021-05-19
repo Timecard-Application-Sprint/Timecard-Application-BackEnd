@@ -26,7 +26,6 @@ public class Leave {
 	private int leaveId;
 	@Column(name = "STATUS")
 	private String status;
-
 	@Column(name = "FROM_DATE")
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
 	private LocalDate fromDate;

@@ -7,25 +7,22 @@ import javax.persistence.Table;
 
 import lombok.Data;
 
-
-
 @Entity
 @Data
-@Table(name="SUPERVISOR")
+@Table(name = "SUPERVISOR")
 public class Supervisor {
 	@Id
-	@Column(name="SUP_ID")
+	@Column(name = "SUP_ID")
 	private int supervisorId;
-	@Column(name="SUP_NAME")
+	@Column(name = "SUP_NAME", nullable = false)
 	private String supervisorName;
-	@Column(name="SUP_PHNO")
+	@Column(name = "SUP_PHNO", nullable = false, unique = true, length = 10)
 	private String supervisorNumber;
-	@Column(name="SUP_EMAIL")
+	@Column(name = "SUP_EMAIL", nullable = false, unique = true, length = 30)
 	private String supervisorEmail;
-	@Column(name="PASSWORD")
+	@Column(name = "PASSWORD")
 	private String password;
-	@Column(name="USER_ID")
+	@Column(name = "USER_ID")
 	private String userId;
-	
+
 }
-	

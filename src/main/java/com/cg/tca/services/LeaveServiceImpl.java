@@ -16,15 +16,24 @@ public class LeaveServiceImpl implements LeaveService {
 
 	@Autowired
 	public LeaveRepository leaveRep;
-	
+
 	@Autowired
 	public EmployeeRepository employeeRepository;
 	
-	
+	@Override
+	public Leave addLeave(Leave leave) {
+		return leaveRep.save(leave);
+	}
 
 	@Override
 	public Leave saveLeave(Leave leave) {
 		return leaveRep.save(leave);
+	}
+
+	@Override
+	public Leave findLeave(int leaveId) throws ResourceNotFoundException {
+		return leaveRep.findById(leaveId)
+				.orElseThrow(() -> new ResourceNotFoundException("Leave not found for this id :: " + leaveId));
 	}
 
 	@Override
@@ -39,24 +48,13 @@ public class LeaveServiceImpl implements LeaveService {
 
 	@Override
 	public int updateLeaveById(Integer leaveId, Leave l) throws ResourceNotFoundException {
-		Leave leave = leaveRep.findById(leaveId).orElseThrow(() -> new ResourceNotFoundException("Leave not found for this id :: " + leaveId));
+		Leave leave = leaveRep.findById(leaveId)
+				.orElseThrow(() -> new ResourceNotFoundException("Leave not found for this id :: " + leaveId));
 		leave.setFromDate(l.getFromDate());
 		leave.setToDate(l.getToDate());
 		leave.setStatus(l.getStatus());
 		leaveRep.save(leave);
 		return leave.getLeaveId();
-	}
-	
-	/**@Override
-	public List<Leave> findByEmpId(int empId) {
-		return leaveRep.findByEmpId(empId);
-
-	}**/
-
-	@Override
-	public Leave findLeave(int leaveId) throws ResourceNotFoundException {
-		return leaveRep.findById(leaveId)
-				.orElseThrow(() -> new ResourceNotFoundException("Leave not found for this id :: " + leaveId));
 	}
 
 	@Override

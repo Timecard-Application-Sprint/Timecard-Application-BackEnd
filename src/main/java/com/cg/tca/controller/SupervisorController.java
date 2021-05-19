@@ -25,10 +25,10 @@ public class SupervisorController {
 
 	@Autowired
 	private SupervisorService supervisorService;
-	
+
 	@Autowired
 	private TimeCardService tcs;
-	
+
 	@PostMapping("/create")
 	public ResponseEntity<Supervisor> createCompanySupervisor(@RequestBody Supervisor supervisor) {
 		Supervisor sup = supervisorService.createSupervisor(supervisor);
@@ -61,10 +61,17 @@ public class SupervisorController {
 		Supervisor supervisor = supervisorService.updateSupervisor(supervisorId, supervisorDetails);
 		return ResponseEntity.ok(supervisor);
 	}
-	
+
 	@PutMapping("/supervisortimecardedit/{tc_id}")
-	public Integer editTimeCard(@PathVariable("tc_id") Integer id,@RequestBody TimeCard tcard) throws ResourceNotFoundException{
+	public Integer editTimeCard(@PathVariable("tc_id") Integer id, @RequestBody TimeCard tcard)
+			throws ResourceNotFoundException {
 		return tcs.updateEntries(id, tcard);
-}
+	}
 	
+	@GetMapping("/timecards")
+	public List<TimeCard> getAllEntries() {
+		List<TimeCard> timecard = tcs.displayAll();
+		return timecard;
+	}
+
 }

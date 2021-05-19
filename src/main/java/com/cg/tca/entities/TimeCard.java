@@ -19,24 +19,23 @@ import lombok.Data;
 
 @Entity
 @Data
-@Table(name="TIMECARD")
+@Table(name = "TIMECARD")
 public class TimeCard {
 	@Id
-	@Column(name="TIME_CARDID")
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(name = "TIME_CARDID")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int timeCardId;
-	@Column(name="ENTRY_DATE")
+	@Column(name = "ENTRY_DATE")
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
 	private LocalDate date;
-	@Column(name="ENTRY_TIME")
+	@Column(name = "ENTRY_TIME")
 	private LocalTime timeEntry;
-	@Column(name="EXIT_TIME")
+	@Column(name = "EXIT_TIME")
 	private LocalTime timeExit;
-	@Column(name="STATUS")
+	@Column(name = "STATUS")
 	private String status;
-	@OneToOne(cascade=CascadeType.ALL)
-	@JoinColumn(name="EMP_ID")
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "EMP_ID")
 	private Employee employee;
-		
-	}
 
+}

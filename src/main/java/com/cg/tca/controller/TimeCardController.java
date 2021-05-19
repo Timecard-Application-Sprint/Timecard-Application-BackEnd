@@ -18,52 +18,46 @@ import com.cg.tca.exception.ResourceNotFoundException;
 import com.cg.tca.services.EmployeeService;
 import com.cg.tca.services.TimeCardService;
 
-@RestController 
+@RestController
 @RequestMapping("/api/timecard")
 public class TimeCardController {
 
 	@Autowired
 	private TimeCardService tcs;
-	
+
 	@Autowired
 	private EmployeeService empSer;
-	
-	
-	@GetMapping("/employee/{id}")
-	public Employee getEmpById(@PathVariable(value = "id") int empId) throws ResourceNotFoundException{
-		return empSer.getEmpById(empId);
-	}
-	
-	@GetMapping("/gettimecard/{id}")
-	public TimeCard getTimeCardById(@PathVariable(value = "id") Integer tcId){
-		return tcs.getTimeCard(tcId);
-	}
-	
+
 	@PostMapping("/timecardentry/{emp_id}")
-	public TimeCard createTimeCard( @RequestBody TimeCard tca, @PathVariable(value = "emp_id") Integer empId ) throws ResourceNotFoundException {
-		Employee employee=empSer.getEmpById(empId);
-		if(employee!=null)
+	public TimeCard createTimeCard(@RequestBody TimeCard tca, @PathVariable(value = "emp_id") Integer empId)
+			throws ResourceNotFoundException {
+		Employee employee = empSer.getEmpById(empId);
+		if (employee != null)
 			tca.setEmployee(employee);
 		tca.setStatus("Pending");
-		return tcs.saveTimeEntry(tca); 
+		return tcs.saveTimeEntry(tca);
 	}
-	
-	
+
+	@GetMapping("/gettimecard/{id}")
+	public TimeCard getTimeCardById(@PathVariable(value = "id") Integer tcId) {
+		return tcs.getTimeCard(tcId);
+	}
+
 	@PutMapping("/timecardedit/{tc_id}")
-	public Integer editTimeCard(@PathVariable("tc_id") Integer id,@RequestBody TimeCard tcard) throws ResourceNotFoundException{
+	public Integer editTimeCard(@PathVariable("tc_id") Integer id, @RequestBody TimeCard tcard)
+			throws ResourceNotFoundException {
 		return tcs.updateEntries(id, tcard);
 	}
-	
+
 	@DeleteMapping("/timecarddelete/{id}")
-	public Boolean deleteTimeCard(@PathVariable("id") Integer id ) throws ResourceNotFoundException{
+	public Boolean deleteTimeCard(@PathVariable("id") Integer id) throws ResourceNotFoundException {
 		return tcs.removeEntry(id);
 	}
-	
-	
+
 	@GetMapping("/timecards")
-	public List<TimeCard> getAllEntries(){
+	public List<TimeCard> getAllEntries() {
 		List<TimeCard> timecard = tcs.displayAll();
 		return timecard;
 	}
-	
+
 }

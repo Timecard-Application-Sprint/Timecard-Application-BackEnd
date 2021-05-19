@@ -6,9 +6,9 @@ import org.springframework.stereotype.Service;
 
 import com.cg.tca.entities.Employee;
 import com.cg.tca.exception.ResourceNotFoundException;
+
 @Service
 public interface EmployeeService {
-	//Employee createEmployee(Employee employee) throws ResourceNotFoundException;
 
 	Employee updateEmployee(Integer employeeId, Employee employeeDetails) throws ResourceNotFoundException;
 
@@ -21,7 +21,5 @@ public interface EmployeeService {
 	List<Employee> getAllEmployee();
 
 	Employee save(Employee employee);
-
-
 
 }

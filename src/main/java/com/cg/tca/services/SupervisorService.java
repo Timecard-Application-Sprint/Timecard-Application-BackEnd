@@ -16,5 +16,4 @@ public interface SupervisorService {
 	Supervisor getSupervisorById(int supervisorId) throws ResourceNotFoundException;
 
 	Supervisor updateSupervisor(Integer supervisorId, Supervisor supervisorDetails) throws ResourceNotFoundException;
-
 }

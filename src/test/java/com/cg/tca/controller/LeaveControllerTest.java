@@ -31,31 +31,25 @@ import com.cg.tca.services.LeaveService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-
-
-
-
-
-
 @WebMvcTest(value = LeaveController.class)
 class LeaveControllerTest {
 
-    @Autowired
-    private MockMvc mockMvc;
-   
-    @MockBean
-    private EmployeeService empSer;
+	@Autowired
+	private MockMvc mockMvc;
 
-    @MockBean
-    private LeaveService leaveService;
+	@MockBean
+	private EmployeeService empSer;
 
-    Employee emp;
+	@MockBean
+	private LeaveService leaveService;
+
+	Employee emp;
 	Leave leave;
-	
+
 	@BeforeEach
 	void setUp() throws Exception {
-		emp=new Employee();
-		leave=new Leave();
+		emp = new Employee();
+		leave = new Leave();
 		emp.setEmployeeId(100);
 		emp.setEmployeeName("RAJU");
 		emp.setEmployeeEmail("chiku@gmail.com");
@@ -65,76 +59,62 @@ class LeaveControllerTest {
 		leave.setToDate(LocalDate.MAX);
 		leave.setEmployee(emp);
 	}
-	
-	@AfterEach
-	void tearDown() throws Exception{
-		emp=null;
-		leave=null;
-	}
-	
-	 @Test
-	   public void testAddLeave() throws Exception{
-		  String URI = "/api/leave/apply/1";
-		  String jsonInput = this.converttoJson(leave);
 
-		  Mockito.when(leaveService.saveLeave(leave)).thenReturn(leave);
-		  MvcResult mvcResult = this.mockMvc.perform(MockMvcRequestBuilders
-				    		.post(URI).accept(MediaType.APPLICATION_JSON).content(jsonInput)
-				    		.contentType(MediaType.APPLICATION_JSON)).andReturn();
-		  MockHttpServletResponse mockHttpServletResponse = mvcResult.getResponse();
-	      String jsonOutput = mockHttpServletResponse.getContentAsString();
-	    //  assertThat(jsonInput).isEqualTo(jsonOutput);
-	     // Assert.assertEquals(HttpStatus.OK.value(), mockHttpServletResponse.getStatus());
-	 }
-   
-	 @Test
-	 public void testUpdateLeaveById() throws Exception{
-		 String URI= "/api/leave/update/1";
-		 String jsonInput = this.converttoJson(leave);
-		//Mockito.when(leaveService.updateLeaveById(100, leave))
-		 							//.thenReturn(leave.updateLeaveById(100, leave));
-		 MvcResult mvcResult = this.mockMvc.perform(MockMvcRequestBuilders.put(URI, 3)
-				 			.accept(MediaType.APPLICATION_JSON)
-				 			.content(jsonInput).contentType(MediaType.APPLICATION_JSON))
-				 			.andReturn();
-		 MockHttpServletResponse mockHttpServletResponse = mvcResult.getResponse();
-		 String jsonOutput = mockHttpServletResponse.getContentAsString();
-	
-	 	// assertThat(jsonInput).isEqualTo(jsonOutput);  	 
-	 }
-	    
+	@AfterEach
+	void tearDown() throws Exception {
+		emp = null;
+		leave = null;
+	}
+
 	@Test
-    void testfindLeave() throws Exception{
-    	Leave Lea = new Leave();
-    	Lea.setFromDate(LocalDate.MIN);
+	public void testAddLeave() throws Exception {
+		String URI = "/api/leave/apply/1";
+		String jsonInput = this.converttoJson(leave);
+
+		Mockito.when(leaveService.saveLeave(leave)).thenReturn(leave);
+		MvcResult mvcResult = this.mockMvc.perform(MockMvcRequestBuilders.post(URI).accept(MediaType.APPLICATION_JSON)
+				.content(jsonInput).contentType(MediaType.APPLICATION_JSON)).andReturn();
+		MockHttpServletResponse mockHttpServletResponse = mvcResult.getResponse();
+		String jsonOutput = mockHttpServletResponse.getContentAsString();
+	}
+
+	@Test
+	public void testUpdateLeaveById() throws Exception {
+		String URI = "/api/leave/update/1";
+		String jsonInput = this.converttoJson(leave);
+
+		MvcResult mvcResult = this.mockMvc.perform(MockMvcRequestBuilders.put(URI, 3).accept(MediaType.APPLICATION_JSON)
+				.content(jsonInput).contentType(MediaType.APPLICATION_JSON)).andReturn();
+		MockHttpServletResponse mockHttpServletResponse = mvcResult.getResponse();
+		String jsonOutput = mockHttpServletResponse.getContentAsString();
+	}
+
+	@Test
+	void testfindLeave() throws Exception {
+		Leave Lea = new Leave();
+		Lea.setFromDate(LocalDate.MIN);
 		Lea.setStatus("pending");
 		Lea.setToDate(LocalDate.MAX);
-		
+
 		Mockito.when(leaveService.findLeave(Mockito.anyInt())).thenReturn(Lea);
-		
-		mockMvc.perform(get("/api/leave/21"))
-				.andExpect(MockMvcResultMatchers.status().isOk());
-    }
- 
-    @Test
-    void testRemoveLeave() throws Exception{
-        String URI = "/{leaveId}";
-        Leave lea=new Leave();
-        lea.setLeaveId(2);
+		mockMvc.perform(get("/api/leave/21")).andExpect(MockMvcResultMatchers.status().isOk());
+	}
 
-        Mockito.when(leaveService.findLeave(2)).thenReturn(lea);
-        Mockito.when(leaveService.removeLeave(2)).thenReturn(-1);
-        MvcResult mvcResult = this.mockMvc.perform(MockMvcRequestBuilders.delete(URI, 2)).andReturn();
-        MockHttpServletResponse mockHttpServletResponse = mvcResult.getResponse();
+	@Test
+	void testRemoveLeave() throws Exception {
+		String URI = "/{leaveId}";
+		Leave lea = new Leave();
+		lea.setLeaveId(2);
 
-       // Assert.assertEquals(HttpStatus.OK.value(), mockHttpServletResponse.getStatus());
+		Mockito.when(leaveService.findLeave(2)).thenReturn(lea);
+		Mockito.when(leaveService.removeLeave(2)).thenReturn(-1);
+		MvcResult mvcResult = this.mockMvc.perform(MockMvcRequestBuilders.delete(URI, 2)).andReturn();
+		MockHttpServletResponse mockHttpServletResponse = mvcResult.getResponse();
+	}
 
-       
-    }
-	
-    private String converttoJson(Object manager) throws JsonProcessingException {
-        ObjectMapper objectMapper = new ObjectMapper();
-        return objectMapper.writeValueAsString(manager); 
-   }
+	private String converttoJson(Object manager) throws JsonProcessingException {
+		ObjectMapper objectMapper = new ObjectMapper();
+		return objectMapper.writeValueAsString(manager);
+	}
 
 }

@@ -36,20 +36,20 @@ class TimeCardControllerTest {
 
 	@Autowired
 	private MockMvc mockMvc;
-	
+
 	@MockBean
 	private TimeCardService tcs;
-	
+
 	@MockBean
 	private EmployeeService empSer;
-	 
+
 	Employee emp;
 	TimeCard tcard;
-	
+
 	@BeforeEach
 	void setUp() throws Exception {
-		emp=new Employee();
-		tcard=new TimeCard();
+		emp = new Employee();
+		tcard = new TimeCard();
 		emp.setEmployeeId(100);
 		emp.setEmployeeName("RAJU");
 		emp.setEmployeeEmail("chiku@gmail.com");
@@ -59,82 +59,69 @@ class TimeCardControllerTest {
 		tcard.setTimeExit(LocalTime.MAX);
 		tcard.setEmployee(emp);
 	}
-	
+
 	@AfterEach
-	void tearDown() throws Exception{
-		emp=null;
-		tcard=null;
+	void tearDown() throws Exception {
+		emp = null;
+		tcard = null;
 	}
-	
-	 @Test
-	   public void testAddTimeCard() throws Exception{
-		  String URI = "/api/timecard/timecardentry/1";
-		  String jsonInput = this.converttoJson(tcard);
 
-		  Mockito.when(tcs.saveTimeEntry(tcard)).thenReturn(tcard);
-		  MvcResult mvcResult = this.mockMvc.perform(MockMvcRequestBuilders
-				    		.post(URI).accept(MediaType.APPLICATION_JSON).content(jsonInput)
-				    		.contentType(MediaType.APPLICATION_JSON)).andReturn();
-		  MockHttpServletResponse mockHttpServletResponse = mvcResult.getResponse();
-	      String jsonOutput = mockHttpServletResponse.getContentAsString();
-	      //assertThat(jsonInput).isEqualTo(jsonOutput);
-	     //Assert.assertEquals(HttpStatus.OK.value(), mockHttpServletResponse.getStatus());
-	 }
-	 
-	 @Test
-	    void testfindTimeCardById() throws Exception{
-	    	Leave Lea = new Leave();
-	    	Lea.setFromDate(LocalDate.MIN);
-			Lea.setStatus("pending");
-			Lea.setToDate(LocalDate.MAX);
-			Mockito.when(tcs.getTimeCard(Mockito.anyInt())).thenReturn(tcard);
-			mockMvc.perform(get("/api/timecard/gettimecard/21"))
-					.andExpect(MockMvcResultMatchers.status().isOk());
-	    }
-	 
-	 @Test
-	 public void testEditTimeCard() throws Exception{
-		 String URI= "/api/timecard/timecardedit/1";
-		 String jsonInput = this.converttoJson(tcard);
-		 Mockito.when(tcs.updateEntries(100, tcard))
-		 							.thenReturn(tcard.getTimeCardId());
-		 MvcResult mvcResult = this.mockMvc.perform(MockMvcRequestBuilders.put(URI, 3)
-				 			.accept(MediaType.APPLICATION_JSON)
-				 			.content(jsonInput).contentType(MediaType.APPLICATION_JSON))
-				 			.andReturn();
-		 MockHttpServletResponse mockHttpServletResponse = mvcResult.getResponse();
-		 String jsonOutput = mockHttpServletResponse.getContentAsString();
-	
-	 	// assertThat(jsonInput).isEqualTo(jsonOutput);  	 
-	 }
-	    
-	    @Test
-	    public void testDeleteEmployee() throws Exception{
-	    	
-	       String URI= "/api/timecard/timecarddelete/1";
-	       TimeCard newCard=new TimeCard();
-	       newCard.setEmployee(emp);
-	       newCard.setDate(LocalDate.of(2020, 05, 17));
-	       newCard.setTimeEntry(LocalTime.of(9, 03));
-	       newCard.setTimeExit(LocalTime.of(18, 35));
-	       ArrayList<TimeCard> checklist=new ArrayList<>();
-	       checklist.add(tcard);
-	       checklist.add(newCard);
+	@Test
+	public void testAddTimeCard() throws Exception {
+		String URI = "/api/timecard/timecardentry/1";
+		String jsonInput = this.converttoJson(tcard);
 
-	    	String jsonInput = this.converttoJson(true);
-	    	Mockito.when(tcs.removeEntry(tcard.getTimeCardId()))
-	    	.thenReturn(true);
-	    	MvcResult mvcResult = this.mockMvc.perform(MockMvcRequestBuilders
-	    			.get(URI).accept(MediaType.APPLICATION_JSON)).andReturn();
-	        MockHttpServletResponse mockHttpServletResponse = mvcResult.getResponse();
-	        String jsonOutput = mockHttpServletResponse.getContentAsString();
+		Mockito.when(tcs.saveTimeEntry(tcard)).thenReturn(tcard);
+		MvcResult mvcResult = this.mockMvc.perform(MockMvcRequestBuilders.post(URI).accept(MediaType.APPLICATION_JSON)
+				.content(jsonInput).contentType(MediaType.APPLICATION_JSON)).andReturn();
+		MockHttpServletResponse mockHttpServletResponse = mvcResult.getResponse();
+		String jsonOutput = mockHttpServletResponse.getContentAsString();
+	}
 
-	      //  assertThat(jsonInput).isEqualTo(jsonOutput);
-	  
-	    }
-	
-   private String converttoJson(Object manager) throws JsonProcessingException {
-        ObjectMapper objectMapper = new ObjectMapper();
-        return objectMapper.writeValueAsString(manager); 
-   }
+	@Test
+	void testfindTimeCardById() throws Exception {
+		Leave Lea = new Leave();
+		Lea.setFromDate(LocalDate.MIN);
+		Lea.setStatus("pending");
+		Lea.setToDate(LocalDate.MAX);
+		Mockito.when(tcs.getTimeCard(Mockito.anyInt())).thenReturn(tcard);
+		mockMvc.perform(get("/api/timecard/gettimecard/21")).andExpect(MockMvcResultMatchers.status().isOk());
+	}
+
+	@Test
+	public void testEditTimeCard() throws Exception {
+		String URI = "/api/timecard/timecardedit/1";
+		String jsonInput = this.converttoJson(tcard);
+		Mockito.when(tcs.updateEntries(100, tcard)).thenReturn(tcard.getTimeCardId());
+		MvcResult mvcResult = this.mockMvc.perform(MockMvcRequestBuilders.put(URI, 3).accept(MediaType.APPLICATION_JSON)
+				.content(jsonInput).contentType(MediaType.APPLICATION_JSON)).andReturn();
+		MockHttpServletResponse mockHttpServletResponse = mvcResult.getResponse();
+		String jsonOutput = mockHttpServletResponse.getContentAsString();
+	}
+
+	@Test
+	public void testDeleteEmployee() throws Exception {
+
+		String URI = "/api/timecard/timecarddelete/1";
+		TimeCard newCard = new TimeCard();
+		newCard.setEmployee(emp);
+		newCard.setDate(LocalDate.of(2020, 05, 17));
+		newCard.setTimeEntry(LocalTime.of(9, 03));
+		newCard.setTimeExit(LocalTime.of(18, 35));
+		ArrayList<TimeCard> checklist = new ArrayList<>();
+		checklist.add(tcard);
+		checklist.add(newCard);
+
+		String jsonInput = this.converttoJson(true);
+		Mockito.when(tcs.removeEntry(tcard.getTimeCardId())).thenReturn(true);
+		MvcResult mvcResult = this.mockMvc.perform(MockMvcRequestBuilders.get(URI).accept(MediaType.APPLICATION_JSON))
+				.andReturn();
+		MockHttpServletResponse mockHttpServletResponse = mvcResult.getResponse();
+		String jsonOutput = mockHttpServletResponse.getContentAsString();
+	}
+
+	private String converttoJson(Object manager) throws JsonProcessingException {
+		ObjectMapper objectMapper = new ObjectMapper();
+		return objectMapper.writeValueAsString(manager);
+	}
 }

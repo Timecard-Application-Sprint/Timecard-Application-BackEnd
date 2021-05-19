@@ -9,14 +9,10 @@ public interface AttendanceService {
 
 	public List<Attendance> getAllAttendance();
 
-	//public List<Attendance> getAttendanceByEmpId(Integer employeeId) throws ResourceNotFoundException;
-
-	//public boolean deleteAttendanceByEmpId(Integer attendanceId) throws ResourceNotFoundException;
-
 	public int updateAttendanceById(Integer attendanceId, Attendance att) throws ResourceNotFoundException;
 
 	Attendance getAttendanceById(int attendanceId) throws ResourceNotFoundException;
-	
+
 	boolean deleteAttendanceById(Integer attendanceId) throws ResourceNotFoundException;
 
 	public Attendance add(Attendance att);

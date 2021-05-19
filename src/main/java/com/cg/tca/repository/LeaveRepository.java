@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 import com.cg.tca.entities.Leave;
 @Repository
 public interface LeaveRepository extends JpaRepository<Leave, Integer>{
+
 	//@Query("select l from Leave l where l.employee=:emp")
     //List<Leave> findByEmp(Employee emp);
 	

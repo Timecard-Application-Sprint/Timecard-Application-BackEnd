@@ -59,7 +59,7 @@ class EmployeeControllerTest {
 
 	@Test
 	void DeleteEmployeeByIdTest() throws Exception {
-		
+
 		String URI = "/api/employee/delete/3";
 		Employee e = new Employee();
 		e.setEmployeeId(3);
@@ -69,14 +69,11 @@ class EmployeeControllerTest {
 		ArrayList<Employee> checklist = new ArrayList<>();
 
 		employeeService.deleteEmployeeById(e.getEmployeeId());
-		// String jsonInput = this.converttoJson(true);
 		MvcResult mvcResult = this.mockMvc.perform(MockMvcRequestBuilders.get(URI).accept(MediaType.APPLICATION_JSON))
 				.andReturn();
 		MockHttpServletResponse mockHttpServletResponse = mvcResult.getResponse();
 		String jsonOutput = mockHttpServletResponse.getContentAsString();
 
-		// assertThat(jsonInput).isEqualTo(jsonOutput);
 	}
-
 
 }

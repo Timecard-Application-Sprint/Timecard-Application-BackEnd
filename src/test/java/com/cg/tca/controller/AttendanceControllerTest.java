@@ -38,20 +38,20 @@ class AttendanceControllerTest {
 
 	@Autowired
 	private MockMvc mockMvc;
-	
+
 	@MockBean
 	private AttendanceService attSer;
-	
+
 	@MockBean
 	private EmployeeService empSer;
-	 
+
 	Employee emp;
 	Attendance att;
-	
+
 	@BeforeEach
 	void setUp() throws Exception {
-		emp=new Employee();
-		att=new Attendance();
+		emp = new Employee();
+		att = new Attendance();
 		emp.setEmployeeId(100);
 		emp.setEmployeeName("RAJU");
 		emp.setEmployeeEmail("chiku@gmail.com");
@@ -63,87 +63,74 @@ class AttendanceControllerTest {
 		att.setStatus("pending");
 		att.setEmployee(emp);
 	}
-	
+
 	@AfterEach
-	void tearDown() throws Exception{
-		emp=null;
-		att=null;
+	void tearDown() throws Exception {
+		emp = null;
+		att = null;
 	}
-	
-	 @Test
-	   public void testAddAttendanceByEmpId() throws Exception{
-		  String URI = "/api/attendance/saveattendance/1";
-		  String jsonInput = this.converttoJson(att);
 
-		  Mockito.when(attSer.saveAttendance(att)).thenReturn(att);
-		  MvcResult mvcResult = this.mockMvc.perform(MockMvcRequestBuilders
-				    		.post(URI).accept(MediaType.APPLICATION_JSON).content(jsonInput)
-				    		.contentType(MediaType.APPLICATION_JSON)).andReturn();
-		  MockHttpServletResponse mockHttpServletResponse = mvcResult.getResponse();
-	      String jsonOutput = mockHttpServletResponse.getContentAsString();
-	      //assertThat(jsonInput).isEqualTo(jsonOutput);
-	     //Assert.assertEquals(HttpStatus.OK.value(), mockHttpServletResponse.getStatus());
-	 }
-	 
-	 @Test
-	    void testgetAttendanceById() throws Exception{
-	    	Attendance att = new Attendance();
-	    	att.setFromDate(LocalDate.MIN);
-	    	att.setToDate(LocalDate.MAX);
-	    	att.setInTime(LocalTime.MIN);
-			att.setOffTime(LocalTime.MAX);
-			att.setStatus("pending");
-			Mockito.when(attSer.getAttendanceById(Mockito.anyInt())).thenReturn(att);
-			mockMvc.perform(get("/api/attendance/1"))
-					.andExpect(MockMvcResultMatchers.status().isOk());
-	    }
-	 
-	 @Test
-	 public void testUpdateAttendanceById() throws Exception{
-		 String URI= "/api/timecard/timecardedit/1";
-		 String jsonInput = this.converttoJson(att);
-		// Mockito.when(attSer.updateAttendanceById(100, att))
-		 							//.thenReturn(att.getAttendanceId());
-		 MvcResult mvcResult = this.mockMvc.perform(MockMvcRequestBuilders.put(URI, 3)
-				 			.accept(MediaType.APPLICATION_JSON)
-				 			.content(jsonInput).contentType(MediaType.APPLICATION_JSON))
-				 			.andReturn();
-		 MockHttpServletResponse mockHttpServletResponse = mvcResult.getResponse();
-		 String jsonOutput = mockHttpServletResponse.getContentAsString();
-	
-	 	// assertThat(jsonInput).isEqualTo(jsonOutput);  	 
-	 }
-	    
-	    @Test
-	    public void testDeleteAttendance() throws Exception{
-	    	
-	       String URI= "/api/attendance/delete/1";
-	       Attendance att=new Attendance();
-	       att.setEmployee(emp);
-	       att.setFromDate(LocalDate.of(2020, 05, 17));
-	       att.setToDate(LocalDate.of(2020, 05, 18));
-	       att.setInTime(LocalTime.of(9, 03));
-	       att.setOffTime(LocalTime.of(18, 35));
-	       att.setStatus("pending");
-	       ArrayList<TimeCard> checklist=new ArrayList<>();
-	      // checklist.add(att);
-	       //checklist.add(att);
+	@Test
+	public void testAddAttendanceByEmpId() throws Exception {
+		String URI = "/api/attendance/saveattendance/1";
+		String jsonInput = this.converttoJson(att);
 
-	    	String jsonInput = this.converttoJson(true);
-	    	//Mockito.when(attSer.removeEntry(att.AttendanceById()))
-	    	//.thenReturn(true);
-	    	MvcResult mvcResult = this.mockMvc.perform(MockMvcRequestBuilders
-	    			.get(URI).accept(MediaType.APPLICATION_JSON)).andReturn();
-	        MockHttpServletResponse mockHttpServletResponse = mvcResult.getResponse();
-	        String jsonOutput = mockHttpServletResponse.getContentAsString();
+		Mockito.when(attSer.saveAttendance(att)).thenReturn(att);
+		MvcResult mvcResult = this.mockMvc.perform(MockMvcRequestBuilders.post(URI).accept(MediaType.APPLICATION_JSON)
+				.content(jsonInput).contentType(MediaType.APPLICATION_JSON)).andReturn();
+		MockHttpServletResponse mockHttpServletResponse = mvcResult.getResponse();
+		String jsonOutput = mockHttpServletResponse.getContentAsString();
+	}
 
-	      //  assertThat(jsonInput).isEqualTo(jsonOutput);
-	  
-	    }
-	
-   private String converttoJson(Object manager) throws JsonProcessingException {
-        ObjectMapper objectMapper = new ObjectMapper();
-        return objectMapper.writeValueAsString(manager); 
-   }
+	@Test
+	void testgetAttendanceById() throws Exception {
+		Attendance att = new Attendance();
+		att.setFromDate(LocalDate.MIN);
+		att.setToDate(LocalDate.MAX);
+		att.setInTime(LocalTime.MIN);
+		att.setOffTime(LocalTime.MAX);
+		att.setStatus("pending");
+		Mockito.when(attSer.getAttendanceById(Mockito.anyInt())).thenReturn(att);
+		mockMvc.perform(get("/api/attendance/1")).andExpect(MockMvcResultMatchers.status().isOk());
+	}
+
+	@Test
+	public void testUpdateAttendanceById() throws Exception {
+
+		String URI = "/api/timecard/timecardedit/1";
+
+		String jsonInput = this.converttoJson(att);
+
+		MvcResult mvcResult = this.mockMvc.perform(MockMvcRequestBuilders.put(URI, 3).accept(MediaType.APPLICATION_JSON)
+				.content(jsonInput).contentType(MediaType.APPLICATION_JSON)).andReturn();
+		MockHttpServletResponse mockHttpServletResponse = mvcResult.getResponse();
+		String jsonOutput = mockHttpServletResponse.getContentAsString();
+	}
+
+	@Test
+	public void testDeleteAttendance() throws Exception {
+
+		String URI = "/api/attendance/delete/1";
+		Attendance att = new Attendance();
+		att.setEmployee(emp);
+		att.setFromDate(LocalDate.of(2020, 05, 17));
+		att.setToDate(LocalDate.of(2020, 05, 18));
+		att.setInTime(LocalTime.of(9, 03));
+		att.setOffTime(LocalTime.of(18, 35));
+		att.setStatus("pending");
+		ArrayList<TimeCard> checklist = new ArrayList<>();
+
+		String jsonInput = this.converttoJson(true);
+		MvcResult mvcResult = this.mockMvc.perform(MockMvcRequestBuilders.get(URI).accept(MediaType.APPLICATION_JSON))
+				.andReturn();
+		MockHttpServletResponse mockHttpServletResponse = mvcResult.getResponse();
+		String jsonOutput = mockHttpServletResponse.getContentAsString();
+
+	}
+
+	private String converttoJson(Object manager) throws JsonProcessingException {
+		ObjectMapper objectMapper = new ObjectMapper();
+		return objectMapper.writeValueAsString(manager);
+	}
 
 }

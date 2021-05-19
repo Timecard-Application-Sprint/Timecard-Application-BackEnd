@@ -15,14 +15,14 @@ import com.cg.tca.entities.TimeCard;
 @Repository
 public interface TimeCardRepository extends JpaRepository<TimeCard, Integer> {
 
-		@Query("select tc from TimeCard tc where tc.employee=:emp")
-		List<TimeCard> findByEmp(Employee emp);
+	@Query("select tc from TimeCard tc where tc.employee=:emp")
+	List<TimeCard> findByEmp(Employee emp);
 
-		@Query("select tc from TimeCard tc where tc.employee=(select emp from Employee emp where emp.employeeId=:empId)")
-		public Employee findByEmpId(int empId);
+	@Query("select tc from TimeCard tc where tc.employee=(select emp from Employee emp where emp.employeeId=:empId)")
+	public Employee findByEmpId(int empId);
 
-		@Transactional
-		@Modifying
-		@Query("delete from TimeCard tt where tt.timeCardId=:id")
-		void deleteId(int id);
-	}
+	@Transactional
+	@Modifying
+	@Query("delete from TimeCard tt where tt.timeCardId=:id")
+	void deleteId(int id);
+}

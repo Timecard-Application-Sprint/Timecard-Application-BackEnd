@@ -33,18 +33,18 @@ public class AttendanceController {
 		return attendanceService.getAllAttendance();
 	}
 
-	
-	 @PostMapping("/saveattendance/{emp_id}") 
-	 public Attendance addAttendance(@PathVariable(value = "emp_id") Integer empId,@RequestBody Attendance att) throws ResourceNotFoundException {
-	 Employee employee=empSer.getEmpById(empId);
-	 if(employee!=null)
-		 att.setEmployee(employee);
-	 	att.setStatus("Pending");
-	 return attendanceService.saveAttendance(att);
-	 }
-	 
+	@PostMapping("/saveattendance/{emp_id}")
+	public Attendance addAttendance(@PathVariable(value = "emp_id") Integer empId, @RequestBody Attendance att)
+			throws ResourceNotFoundException {
+		Employee employee = empSer.getEmpById(empId);
+		if (employee != null)
+			att.setEmployee(employee);
+		att.setStatus("Pending");
+		return attendanceService.saveAttendance(att);
+	}
+
 	@GetMapping("/{id}")
-	public Attendance getAttendanceById(@PathVariable (value = "id") int attendanceId) throws ResourceNotFoundException {
+	public Attendance getAttendanceById(@PathVariable(value = "id") int attendanceId) throws ResourceNotFoundException {
 		return attendanceService.getAttendanceById(attendanceId);
 	}
 
@@ -52,7 +52,7 @@ public class AttendanceController {
 	public int updateAttendanceById(@PathVariable(value = "id") Integer attendanceId,
 			@RequestBody Attendance attendanceDetails) throws ResourceNotFoundException {
 		attendanceDetails.setStatus("Pending");
-	    return attendanceService.updateAttendanceById(attendanceId, attendanceDetails);
+		return attendanceService.updateAttendanceById(attendanceId, attendanceDetails);
 	}
 
 	@DeleteMapping("/delete/{id}")

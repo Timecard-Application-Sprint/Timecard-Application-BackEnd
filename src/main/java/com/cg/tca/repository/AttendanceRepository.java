@@ -11,11 +11,9 @@ import org.springframework.stereotype.Repository;
 
 import com.cg.tca.entities.Attendance;
 
-
-
 @Repository
-public interface AttendanceRepository extends JpaRepository<Attendance,Integer>{
-	
+public interface AttendanceRepository extends JpaRepository<Attendance, Integer> {
+
 	//@Query("select att from Attendance att where att.employee=:emp")
     //List<Attendance> findByEmp(Employee emp);
 	

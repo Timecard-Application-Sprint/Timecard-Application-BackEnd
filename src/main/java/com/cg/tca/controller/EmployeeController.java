@@ -33,19 +33,19 @@ public class EmployeeController {
 	@PostMapping("/create")
 	public ResponseEntity<String> createEmployee(@RequestBody Employee employee) {
 		employeeService.createEmployee(employee);
-		return new ResponseEntity<String>("Employee Created",HttpStatus.CREATED);
+		return new ResponseEntity<String>("Employee Created", HttpStatus.CREATED);
 	}
 
 	@GetMapping("/all")
 	public List<Employee> getAllEmployee() {
 		return employeeService.getAllEmployee();
 	}
-	
+
 	@GetMapping("/{id}")
-	public ResponseEntity <Employee> getEmpById(@PathVariable (value = "id") int empId) throws ResourceNotFoundException {
-	 Employee employee =employeeService.getEmpById(empId);
-	 return new ResponseEntity<Employee>(employee, HttpStatus.OK);
-	 
+	public ResponseEntity<Employee> getEmpById(@PathVariable(value = "id") int empId) throws ResourceNotFoundException {
+		Employee employee = employeeService.getEmpById(empId);
+		return new ResponseEntity<Employee>(employee, HttpStatus.OK);
+
 	}
 
 	@PutMapping("/update/{id}")
@@ -62,23 +62,15 @@ public class EmployeeController {
 	}
 
 	@PutMapping("/{employeeId}/supervisor/{supervisorId}")
-	public String asssignSupervisor(@PathVariable int employeeId, @PathVariable int supervisorId ) throws ResourceNotFoundException {
-	
+	public String asssignSupervisor(@PathVariable int employeeId, @PathVariable int supervisorId)
+			throws ResourceNotFoundException {
+
 		Employee employee = employeeService.getEmpById(employeeId);
-		Supervisor supervisor =  supService.getSupervisorById(supervisorId);
+		Supervisor supervisor = supService.getSupervisorById(supervisorId);
 		employee.setSupervisor(supervisor);
 		employeeService.save(employee);
-		
+
 		return "Supervisor Linked";
 	}
-	
-	/**
-	 * @PutMapping("/{id}") public ResponseEntity<Employee>
-	 * createEmployee(@RequestBody Employee employee, @PathVariable("sup_id")
-	 * Integer supervisorId) throws ResourceNotFoundException{ Supervisor
-	 * sup=supServ.getSupervisorById(supervisorId); if(sup!=null)
-	 * employee.setSupervisor(sup); return
-	 * ResponseEntity.ok(employeeService.createEmployee(employee)); }
-	 **/
 
 }

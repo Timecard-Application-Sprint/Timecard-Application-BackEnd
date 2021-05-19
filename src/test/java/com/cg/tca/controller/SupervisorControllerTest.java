@@ -25,11 +25,11 @@ import com.cg.tca.services.TimeCardService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @WebMvcTest(SupervisorController.class)
-class  SupervisorControllerTest{
-	
+class SupervisorControllerTest {
+
 	@Autowired
 	private MockMvc mockMvc;
-	
+
 	@MockBean
 	private SupervisorService supervisorService;
 	@MockBean
@@ -52,12 +52,12 @@ class  SupervisorControllerTest{
 
 		Mockito.when(supervisorService.createSupervisor(Mockito.any())).thenReturn(sup);
 		mockMvc.perform(post("/api/supervisor/create").contentType(MediaType.APPLICATION_JSON)
-				.content(new ObjectMapper().writeValueAsString(sup)))
-				.andExpect(MockMvcResultMatchers.status().isOk());
+				.content(new ObjectMapper().writeValueAsString(sup))).andExpect(MockMvcResultMatchers.status().isOk());
 	}
+
 	@Test
 	void DeleteSupervisorByIdTest() throws Exception {
-		
+
 		String URI = "/api/supersior/delete/3";
 		Supervisor sup = new Supervisor();
 		sup.setSupervisorName("amrutha");
@@ -66,15 +66,10 @@ class  SupervisorControllerTest{
 		ArrayList<Supervisor> checklist = new ArrayList<>();
 
 		supervisorService.deleteSupervisor(sup.getSupervisorId());
-		// String jsonInput = this.converttoJson(true);
 		MvcResult mvcResult = this.mockMvc.perform(MockMvcRequestBuilders.get(URI).accept(MediaType.APPLICATION_JSON))
 				.andReturn();
 		MockHttpServletResponse mockHttpServletResponse = mvcResult.getResponse();
 		String jsonOutput = mockHttpServletResponse.getContentAsString();
-
-		// assertThat(jsonInput).isEqualTo(jsonOutput);
 	}
 
-
 }
-
