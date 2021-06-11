@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,11 +18,13 @@ import org.springframework.web.bind.annotation.RestController;
 import com.cg.tca.entities.Employee;
 import com.cg.tca.entities.Supervisor;
 import com.cg.tca.exception.ResourceNotFoundException;
+import com.cg.tca.repository.EmployeeRepository;
 import com.cg.tca.services.EmployeeService;
 import com.cg.tca.services.SupervisorService;
 
 @RestController
 @RequestMapping("/api/employee")
+@CrossOrigin
 public class EmployeeController {
 
 	@Autowired
@@ -29,14 +32,17 @@ public class EmployeeController {
 
 	@Autowired
 	private SupervisorService supService;
+	
+	@Autowired
+	private EmployeeRepository empRepository;
 
-	@PostMapping("/create")
+	@PostMapping("/")
 	public ResponseEntity<String> createEmployee(@RequestBody Employee employee) {
 		employeeService.createEmployee(employee);
 		return new ResponseEntity<String>("Employee Created", HttpStatus.CREATED);
 	}
 
-	@GetMapping("/all")
+	@GetMapping("/")
 	public List<Employee> getAllEmployee() {
 		return employeeService.getAllEmployee();
 	}
@@ -48,29 +54,25 @@ public class EmployeeController {
 
 	}
 
-	@PutMapping("/update/{id}")
+	@PutMapping("/{id}")
 	public ResponseEntity<Employee> updateEmployee(@PathVariable(value = "id") Integer employeeId,
 			@RequestBody Employee employeeDetails) throws ResourceNotFoundException {
 		Employee employee = employeeService.updateEmployee(employeeId, employeeDetails);
 		return ResponseEntity.ok(employee);
 	}
 
-	@DeleteMapping("/delete/{id}")
+	@DeleteMapping("/{id}")
 	public ResponseEntity<Boolean> deleteEmployeeById(@PathVariable(value = "id") Integer employeeId)
 			throws ResourceNotFoundException {
 		return ResponseEntity.ok(employeeService.deleteEmployeeById(employeeId));
 	}
 
-	@PutMapping("/{employeeId}/supervisor/{supervisorId}")
-	public String asssignSupervisor(@PathVariable int employeeId, @PathVariable int supervisorId)
-			throws ResourceNotFoundException {
-
-		Employee employee = employeeService.getEmpById(employeeId);
-		Supervisor supervisor = supService.getSupervisorById(supervisorId);
-		employee.setSupervisor(supervisor);
-		employeeService.save(employee);
-
-		return "Supervisor Linked";
+	@PostMapping("/login")
+	public Employee loginVerify(@RequestBody Employee employee) {
+		Employee u=empRepository.findByEmployeeEmailAndPassword(employee.getEmployeeEmail(), employee.getPassword());
+		return u;
 	}
+	
+	
 
 }

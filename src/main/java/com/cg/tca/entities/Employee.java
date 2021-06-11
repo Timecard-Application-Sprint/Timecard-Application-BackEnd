@@ -17,7 +17,7 @@ import lombok.Data;
 public class Employee {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "emp_id")
 	private int employeeId;
 	@Column(name = "emp_name")
@@ -32,9 +32,9 @@ public class Employee {
 	private String password;
 	@Column(name = "user_id")
 	private String userId;
-	@ManyToOne
+	/**@ManyToOne
 	@JoinColumn(name = "sup_id")
 	@JsonBackReference
-	private Supervisor supervisor;
+	private Supervisor supervisor;**/
 
 }

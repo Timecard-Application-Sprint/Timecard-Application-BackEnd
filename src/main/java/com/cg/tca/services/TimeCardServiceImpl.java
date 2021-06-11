@@ -1,10 +1,11 @@
-package com.cg.tca.services;
+/**package com.cg.tca.services;
 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.cg.tca.entities.Attendance;
 import com.cg.tca.entities.TimeCard;
 import com.cg.tca.exception.ResourceNotFoundException;
 import com.cg.tca.repository.EmployeeRepository;
@@ -44,17 +45,84 @@ public class TimeCardServiceImpl implements TimeCardService {
 	}
 
 	@Override
-	public int updateEntries(int id, TimeCard tcard) throws ResourceNotFoundException {
-		TimeCard timecard = daoCaller.findById(id)
-				.orElseThrow(() -> new ResourceNotFoundException(" TimeCard not found for this id :: " + id));
-		timecard.setStatus(tcard.getStatus());
-		daoCaller.save(timecard);
-		return timecard.getTimeCardId();
+	public int updateTimeCardById(Integer timeCardId, TimeCard tcard) throws ResourceNotFoundException {
+		TimeCard tca = daoCaller.findById(timeCardId).orElseThrow(
+				() -> new ResourceNotFoundException("Attendance not found for this id :: " + timeCardId));
+	    tca.setDate(tca.getDate());
+		tca.setTimeEntry(tca.getTimeEntry());
+		tca.setTimeExit(tca.getTimeExit());
+		tca.setStatus(tca.getStatus());
+		daoCaller.save(tca);
+		return tca.getTimeCardId();
 	}
 
+	
+	
 	@Override
 	public List<TimeCard> displayAll() {
 		return daoCaller.findAll();
+	}
+
+}**/
+
+package com.cg.tca.services;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.cg.tca.entities.Employee;
+import com.cg.tca.entities.TimeCard;
+import com.cg.tca.exception.ResourceNotFoundException;
+import com.cg.tca.repository.TimeCardRepository;
+
+@Service
+public class TimeCardServiceImpl implements TimeCardService {
+
+	@Autowired
+	private TimeCardRepository tcdetails;
+
+	@Override
+	public TimeCard create(TimeCard tc) {
+		return tcdetails.save(tc);
+	}
+
+	@Override
+	public TimeCard getTimeCardById(int timeCardId) throws ResourceNotFoundException {
+		TimeCard tc = tcdetails.findById(timeCardId).orElseThrow(
+				() -> new ResourceNotFoundException("TimeCard not found for this id :: " + timeCardId));
+		return tc;
+	}
+
+	@Override
+	public List<TimeCard> getAllTimeCard() {
+		return tcdetails.findAll();
+	}
+
+	@Override
+	public boolean deleteTimeCardById(Integer timeCardId) throws ResourceNotFoundException {
+		TimeCard timeCard = tcdetails.findById(timeCardId).orElseThrow(
+				() -> new ResourceNotFoundException("TimeCard not found for this id :: " + timeCardId));
+		tcdetails.delete(timeCard);
+		return true;
+	}
+
+	@Override
+	public TimeCard saveTimeCard(TimeCard tc) {
+		return tcdetails.save(tc);
+	}
+	
+	@Override
+	public int updateTimeCardById(Integer timeCardId, TimeCard tcard) throws ResourceNotFoundException {
+		TimeCard tca = tcdetails.findById(timeCardId).orElseThrow(
+				() -> new ResourceNotFoundException("Attendance not found for this id :: " + timeCardId));
+	    tca.setDate(tca.getDate());
+		tca.setTimeEntry(tca.getTimeEntry());
+		tca.setTimeExit(tca.getTimeExit());
+		tca.setStatus(tca.getStatus());
+		tcdetails.save(tca);
+		return tca.getTimeCardId();
 	}
 
 }

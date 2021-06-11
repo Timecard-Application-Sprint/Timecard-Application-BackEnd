@@ -4,6 +4,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,23 +14,25 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.cg.tca.entities.Employee;
 import com.cg.tca.entities.Supervisor;
-import com.cg.tca.entities.TimeCard;
 import com.cg.tca.exception.ResourceNotFoundException;
+import com.cg.tca.repository.SupervisorRepository;
 import com.cg.tca.services.SupervisorService;
-import com.cg.tca.services.TimeCardService;
 
 @RestController
 @RequestMapping("/api/supervisor")
+@CrossOrigin
 public class SupervisorController {
 
 	@Autowired
 	private SupervisorService supervisorService;
-
+	
 	@Autowired
-	private TimeCardService tcs;
+	private SupervisorRepository supRepository;
 
-	@PostMapping("/create")
+
+	@PostMapping("/")
 	public ResponseEntity<Supervisor> createCompanySupervisor(@RequestBody Supervisor supervisor) {
 		Supervisor sup = supervisorService.createSupervisor(supervisor);
 		return new ResponseEntity<Supervisor>(sup, HttpStatus.OK);
@@ -61,17 +64,12 @@ public class SupervisorController {
 		Supervisor supervisor = supervisorService.updateSupervisor(supervisorId, supervisorDetails);
 		return ResponseEntity.ok(supervisor);
 	}
-
-	@PutMapping("/supervisortimecardedit/{tc_id}")
-	public Integer editTimeCard(@PathVariable("tc_id") Integer id, @RequestBody TimeCard tcard)
-			throws ResourceNotFoundException {
-		return tcs.updateEntries(id, tcard);
-	}
 	
-	@GetMapping("/timecards")
-	public List<TimeCard> getAllEntries() {
-		List<TimeCard> timecard = tcs.displayAll();
-		return timecard;
+	@PostMapping("/login")
+	public Supervisor loginVerify(@RequestBody Supervisor supervisor) {
+		Supervisor sup=supRepository.findBySupervisorEmailAndPassword(supervisor.getSupervisorEmail(), supervisor.getPassword());
+		return sup;
 	}
-
 }
+	
+	

@@ -1,8 +1,12 @@
+
+
 package com.cg.tca.controller;
 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,44 +24,44 @@ import com.cg.tca.services.TimeCardService;
 
 @RestController
 @RequestMapping("/api/timecard")
+@CrossOrigin
 public class TimeCardController {
 
 	@Autowired
-	private TimeCardService tcs;
-
+	private TimeCardService timeCardService;
 	@Autowired
 	private EmployeeService empSer;
 
-	@PostMapping("/timecardentry/{emp_id}")
-	public TimeCard createTimeCard(@RequestBody TimeCard tca, @PathVariable(value = "emp_id") Integer empId)
+	@GetMapping("/all")
+	public List<TimeCard> getAllTimeCard() {
+		return timeCardService.getAllTimeCard();
+	}
+
+	@PostMapping("/{emp_id}")
+	public TimeCard createTimeCard(@PathVariable(value = "emp_id") Integer empId, @RequestBody TimeCard tc)
 			throws ResourceNotFoundException {
 		Employee employee = empSer.getEmpById(empId);
 		if (employee != null)
-			tca.setEmployee(employee);
-		tca.setStatus("Pending");
-		return tcs.saveTimeEntry(tca);
+			tc.setEmployee(employee);
+		tc.setStatus("Pending");
+		return timeCardService.saveTimeCard(tc);
 	}
 
-	@GetMapping("/gettimecard/{id}")
-	public TimeCard getTimeCardById(@PathVariable(value = "id") Integer tcId) {
-		return tcs.getTimeCard(tcId);
+	@GetMapping("/{id}")
+	public TimeCard getTimeCardById(@PathVariable(value = "id") int timeCardId) throws ResourceNotFoundException {
+		return timeCardService.getTimeCardById(timeCardId);
 	}
 
-	@PutMapping("/timecardedit/{tc_id}")
+	
+	@DeleteMapping("/delete/{id}")
+	public Boolean deleteTimeCard(@PathVariable(value = "id") Integer timeCardId) throws ResourceNotFoundException {
+		Boolean tc1 = timeCardService.deleteTimeCardById(timeCardId);
+
+		return tc1;
+	}
+	@PutMapping("/update/{tc_id}")
 	public Integer editTimeCard(@PathVariable("tc_id") Integer id, @RequestBody TimeCard tcard)
 			throws ResourceNotFoundException {
-		return tcs.updateEntries(id, tcard);
+		return timeCardService.updateTimeCardById(id, tcard);
 	}
-
-	@DeleteMapping("/timecarddelete/{id}")
-	public Boolean deleteTimeCard(@PathVariable("id") Integer id) throws ResourceNotFoundException {
-		return tcs.removeEntry(id);
-	}
-
-	@GetMapping("/timecards")
-	public List<TimeCard> getAllEntries() {
-		List<TimeCard> timecard = tcs.displayAll();
-		return timecard;
-	}
-
 }

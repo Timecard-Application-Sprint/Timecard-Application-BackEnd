@@ -26,7 +26,7 @@ public class TimeCard {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int timeCardId;
 	@Column(name = "ENTRY_DATE")
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
 	private LocalDate date;
 	@Column(name = "ENTRY_TIME")
 	private LocalTime timeEntry;

@@ -27,8 +27,8 @@ public class SupervisorServiceImpl implements SupervisorService {
 		Supervisor supervisor = supervisorRepository.findById(supervisorId).orElseThrow(
 				() -> new ResourceNotFoundException("Supervisor not found for this id :: " + supervisorId));
 		supervisor.setSupervisorName(supervisorDetails.getSupervisorName());
-		supervisor.setSupervisorNumber(supervisorDetails.getSupervisorNumber());
 		supervisor.setSupervisorEmail(supervisorDetails.getSupervisorEmail());
+		supervisor.setSupervisorNumber(supervisorDetails.getSupervisorNumber());
 		supervisor.setPassword(supervisorDetails.getPassword());
 		supervisor.setUserId(supervisorDetails.getUserId());
 		final Supervisor updatedSupervisor = supervisorRepository.save(supervisor);

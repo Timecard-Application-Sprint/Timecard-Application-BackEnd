@@ -27,10 +27,10 @@ public class Leave {
 	@Column(name = "STATUS")
 	private String status;
 	@Column(name = "FROM_DATE")
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
 	private LocalDate fromDate;
 	@Column(name = "TO_DATE")
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
 	private LocalDate toDate;
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "EMP_ID")

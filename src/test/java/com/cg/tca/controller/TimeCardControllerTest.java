@@ -7,7 +7,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 
-import org.junit.Assert;
+
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -71,7 +71,7 @@ class TimeCardControllerTest {
 		String URI = "/api/timecard/timecardentry/1";
 		String jsonInput = this.converttoJson(tcard);
 
-		Mockito.when(tcs.saveTimeEntry(tcard)).thenReturn(tcard);
+		Mockito.when(tcs.saveTimeCard(tcard)).thenReturn(tcard);
 		MvcResult mvcResult = this.mockMvc.perform(MockMvcRequestBuilders.post(URI).accept(MediaType.APPLICATION_JSON)
 				.content(jsonInput).contentType(MediaType.APPLICATION_JSON)).andReturn();
 		MockHttpServletResponse mockHttpServletResponse = mvcResult.getResponse();
@@ -84,7 +84,7 @@ class TimeCardControllerTest {
 		Lea.setFromDate(LocalDate.MIN);
 		Lea.setStatus("pending");
 		Lea.setToDate(LocalDate.MAX);
-		Mockito.when(tcs.getTimeCard(Mockito.anyInt())).thenReturn(tcard);
+		Mockito.when(tcs.getTimeCardById(Mockito.anyInt())).thenReturn(tcard);
 		mockMvc.perform(get("/api/timecard/gettimecard/21")).andExpect(MockMvcResultMatchers.status().isOk());
 	}
 
@@ -92,7 +92,7 @@ class TimeCardControllerTest {
 	public void testEditTimeCard() throws Exception {
 		String URI = "/api/timecard/timecardedit/1";
 		String jsonInput = this.converttoJson(tcard);
-		Mockito.when(tcs.updateEntries(100, tcard)).thenReturn(tcard.getTimeCardId());
+		Mockito.when(tcs.updateTimeCardById(100, tcard)).thenReturn(tcard.getTimeCardId());
 		MvcResult mvcResult = this.mockMvc.perform(MockMvcRequestBuilders.put(URI, 3).accept(MediaType.APPLICATION_JSON)
 				.content(jsonInput).contentType(MediaType.APPLICATION_JSON)).andReturn();
 		MockHttpServletResponse mockHttpServletResponse = mvcResult.getResponse();
@@ -113,7 +113,7 @@ class TimeCardControllerTest {
 		checklist.add(newCard);
 
 		String jsonInput = this.converttoJson(true);
-		Mockito.when(tcs.removeEntry(tcard.getTimeCardId())).thenReturn(true);
+		Mockito.when(tcs.deleteTimeCardById(tcard.getTimeCardId())).thenReturn(true);
 		MvcResult mvcResult = this.mockMvc.perform(MockMvcRequestBuilders.get(URI).accept(MediaType.APPLICATION_JSON))
 				.andReturn();
 		MockHttpServletResponse mockHttpServletResponse = mvcResult.getResponse();

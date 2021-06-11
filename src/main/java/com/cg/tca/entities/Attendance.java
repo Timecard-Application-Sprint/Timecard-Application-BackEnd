@@ -31,10 +31,10 @@ public class Attendance {
 	private LocalTime inTime;
 	@Column(name = "OFF_TIME")
 	private LocalTime offTime;
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
 	@Column(name = "FROM_DATE")
 	private LocalDate fromDate;
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
 	@Column(name = "TO_DATE")
 	private LocalDate toDate;
 	@Column(name = "STATUS")

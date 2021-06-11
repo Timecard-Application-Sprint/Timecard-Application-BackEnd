@@ -3,6 +3,7 @@ package com.cg.tca.services;
 import java.util.List;
 
 import com.cg.tca.entities.Attendance;
+import com.cg.tca.entities.TimeCard;
 import com.cg.tca.exception.ResourceNotFoundException;
 
 public interface AttendanceService {
@@ -18,4 +19,6 @@ public interface AttendanceService {
 	public Attendance add(Attendance att);
 
 	public Attendance saveAttendance(Attendance att);
+
+	
 }
